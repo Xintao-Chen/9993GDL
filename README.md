@@ -14,3 +14,6 @@ python -m venv myeny
 source myeny/bin/activate    # Linux / macOS
 # myeny\Scripts\activate     # Windows
 pip install -r requirements.txt
+Remember to set OpenAi key
+```bash
+export OPENAI_API_KEY="your key"
