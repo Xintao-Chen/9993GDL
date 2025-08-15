@@ -1,0 +1,3 @@
+:-(module(cache)).
+:-(ensure_loaded("std_cache")).
+:-(reexport(std_cache)).

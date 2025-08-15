@@ -1,0 +1,107 @@
+(role xplayer)
+(role oplayer)
+
+(init (control xplayer))
+(init (cell 1 1 b))
+(init (cell 1 2 b))
+(init (cell 1 3 b))
+(init (cell 2 1 b))
+(init (cell 2 2 b))
+(init (cell 2 3 b))
+(init (cell 3 1 b))
+(init (cell 3 2 b))
+(init (cell 3 3 b))
+
+(index 1)
+(index 2)
+(index 3)
+
+(succ 1 2)
+(succ 2 3)
+
+(<= (legal ?player (mark ?x ?y))
+    (role ?player)
+    (true (control ?player))
+    (index ?x)
+    (index ?y)
+    (true (cell ?x ?y b)))
+
+(<= (next (cell ?x ?y ?player))
+    (does ?player (mark ?x ?y))
+    (index ?x)
+    (index ?y))
+
+(<= (next (cell ?x ?y ?mark))
+    (true (cell ?x ?y ?mark))
+    (distinct ?mark b)
+    (index ?x)
+    (index ?y))
+
+(<= (next (control xplayer))
+    (true (control oplayer)))
+
+(<= (next (control oplayer))
+    (true (control xplayer)))
+
+(<= (line ?player)
+    (role ?player)
+    (index ?x)
+    (true (cell ?x 1 ?player))
+    (true (cell ?x 2 ?player))
+    (true (cell ?x 3 ?player)))
+
+(<= (line ?player)
+    (role ?player)
+    (index ?y)
+    (true (cell 1 ?y ?player))
+    (true (cell 2 ?y ?player))
+    (true (cell 3 ?y ?player)))
+
+(<= (line ?player)
+    (role ?player)
+    (true (cell 1 1 ?player))
+    (true (cell 2 2 ?player))
+    (true (cell 3 3 ?player)))
+
+(<= (line ?player)
+    (role ?player)
+    (true (cell 1 3 ?player))
+    (true (cell 2 2 ?player))
+    (true (cell 3 1 ?player)))
+
+(<= (full)
+    (index ?x)
+    (index ?y)
+    (distinct ?mark b)
+    (true (cell ?x ?y ?mark)))
+
+(<= terminal
+    (line xplayer))
+
+(<= terminal
+    (line oplayer))
+
+(<= terminal
+    (full))
+
+(<= (goal xplayer 100)
+    (line xplayer))
+
+(<= (goal oplayer 0)
+    (line xplayer))
+
+(<= (goal oplayer 100)
+    (line oplayer))
+
+(<= (goal xplayer 0)
+    (line oplayer))
+
+(<= (goal xplayer 50)
+    (full)
+    (not (line xplayer))
+    (not (line oplayer)))
+
+(<= (goal oplayer 50)
+    (full)
+    (not (line xplayer))
+    (not (line oplayer)))

@@ -1,0 +1,63 @@
+(role player1)
+(role player2)
+
+(init (heap a 1))
+(init (heap b 5))
+(init (heap c 4))
+(init (heap d 2))
+(init (control player1))
+
+(<= (legal player1 (reduce ?heap ?n))
+    (true (control player1))
+    (true (heap ?heap ?m))
+    (< ?n ?m))
+
+(<= (legal player2 (reduce ?heap ?n))
+    (true (control player2))
+    (true (heap ?heap ?m))
+    (< ?n ?m))
+
+(<= (legal player1 noop)
+    (true (control player2)))
+
+(<= (legal player2 noop)
+    (true (control player1)))
+
+(<= (next (heap ?heap ?newm))
+    (does ?player (reduce ?heap ?n))
+    (true (heap ?heap ?m))
+    (subtract ?m ?n ?newm))
+
+(<= (next (heap ?heap ?m))
+    (true (heap ?heap ?m))
+    (not (does ?player (reduce ?heap ?n))))
+
+(<= (next (control player1))
+    (true (control player2))
+    (does player2 (reduce ?heap ?n)))
+
+(<= (next (control player2))
+    (true (control player1))
+    (does player1 (reduce ?heap ?n)))
+
+(<= terminal
+    (true (heap a 0))
+    (true (heap b 0))
+    (true (heap c 0))
+    (true (heap d 0)))
+
+(<= (goal player1 0)
+    (true (control player1))
+    terminal)
+
+(<= (goal player2 100)
+    (true (control player1))
+    terminal)
+
+(<= (goal player1 100)
+    (true (control player2))
+    terminal)
+
+(<= (goal player2 0)
+    (true (control player2))
+    terminal)

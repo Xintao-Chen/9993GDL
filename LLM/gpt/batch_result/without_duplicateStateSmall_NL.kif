@@ -1,0 +1,72 @@
+(role robot)
+(level level1)
+(level level2)
+(level level3)
+(level level4)
+(level level5)
+(choice c1)
+(choice c2)
+(choice c3)
+(choice c4)
+
+(init (depth level1))
+(init (previousGoal 0))
+
+(<= (legal robot ?choice)
+    (true (depth ?level))
+    (choice ?choice)
+    (not (conflict ?level ?choice)))
+
+(<= (legal robot noop)
+    (true (depth level5)))
+
+(<= (next (depth level2))
+    (true (depth level1))
+    (does robot ?choice))
+(<= (next (depth level3))
+    (true (depth level2))
+    (does robot ?choice))
+(<= (next (depth level4))
+    (true (depth level3))
+    (does robot ?choice))
+(<= (next (depth level5))
+    (true (depth level4))
+    (does robot ?choice))
+
+(<= (next (previousGoal ?newGoal))
+    (true (depth ?level))
+    (does robot ?choice)
+    (goalMapping ?level ?choice ?newGoal))
+
+(<= (next (previousGoal ?prevGoal))
+    (true (previousGoal ?prevGoal))
+    (does robot noop))
+
+(<= terminal
+    (true (depth level5)))
+
+(<= (goal robot 100)
+    (true (depth level5))
+    (true (previousGoal 100)))
+
+(<= (goal robot 75)
+    (true (depth level5))
+    (true (previousGoal 75)))
+
+(<= (goal robot 50)
+    (true (depth level5))
+    (true (previousGoal 50)))
+
+(<= (goal robot 25)
+    (true (depth level5))
+    (true (previousGoal 25)))
+
+(<= (conflict level1 c1))
+(<= (conflict level2 c2))
+(<= (conflict level3 c3))
+(<= (conflict level4 c4))
+
+(<= (goalMapping level1 c1 25))
+(<= (goalMapping level2 c2 50))
+(<= (goalMapping level3 c3 75))
+(<= (goalMapping level4 c4 100))

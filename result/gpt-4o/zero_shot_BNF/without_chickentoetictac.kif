@@ -1,0 +1,87 @@
+(role xplayer)
+(role oplayer)
+
+(init (control xplayer))
+(init (cell a blank))
+(init (cell b blank))
+(init (cell c blank))
+(init (cell d blank))
+(init (cell e blank))
+(init (cell f blank))
+(init (cell g blank))
+(init (cell h blank))
+(init (cell i blank))
+
+(<= (legal ?player (mark ?cell))
+    (role ?player)
+    (true (control ?player))
+    (true (cell ?cell blank)))
+
+(<= (legal xplayer noop)
+    (true (control oplayer)))
+
+(<= (legal oplayer noop)
+    (true (control xplayer)))
+
+(<= (next (cell ?cell x))
+    (does xplayer (mark ?cell))
+    (true (cell ?cell blank)))
+
+(<= (next (cell ?cell o))
+    (does oplayer (mark ?cell))
+    (true (cell ?cell blank)))
+
+(<= (next (cell ?cell ?mark))
+    (true (cell ?cell ?mark))
+    (distinct ?mark blank)
+    (not (does xplayer (mark ?cell)))
+    (not (does oplayer (mark ?cell)))
+
+(<= (next (control xplayer))
+    (true (control oplayer)))
+
+(<= (next (control oplayer))
+    (true (control xplayer)))
+
+(<= (line ?player)
+    (role ?player)
+    (true (cell ?a ?player))
+    (true (cell ?b ?player))
+    (true (cell ?c ?player))
+    (line-pattern ?a ?b ?c))
+
+(<= (line-pattern a b c))
+(<= (line-pattern d e f))
+(<= (line-pattern g h i))
+(<= (line-pattern a d g))
+(<= (line-pattern b e h))
+(<= (line-pattern c f i))
+(<= (line-pattern a e i))
+(<= (line-pattern c e g))
+
+(<= (terminal)
+    (line xplayer))
+(<= (terminal)
+    (line oplayer))
+(<= (terminal)
+    (not (true (cell ?cell blank))))
+
+(<= (goal xplayer 100)
+    (line xplayer))
+(<= (goal oplayer 0)
+    (line xplayer))
+
+(<= (goal oplayer 100)
+    (line oplayer))
+(<= (goal xplayer 0)
+    (line oplayer))
+
+(<= (goal xplayer 50)
+    (not (line xplayer))
+    (not (line oplayer))
+    (not (true (cell ?cell blank))))
+
+(<= (goal oplayer 50)
+    (not (line xplayer))
+    (not (line oplayer))
+    (not (true (cell ?cell blank))))

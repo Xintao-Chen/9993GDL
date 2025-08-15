@@ -1,0 +1,83 @@
+(role you)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+
+(init (step 1))
+(init (coins 1 1))
+(init (coins 2 1))
+(init (coins 3 1))
+(init (coins 4 1))
+(init (coins 5 1))
+(init (coins 6 1))
+(init (coins 7 1))
+(init (coins 8 1))
+
+(<= (legal you noop)
+    (not (can_jump)))
+
+(<= (legal you (jump ?i ?j))
+    (index ?i)
+    (index ?j)
+    (distinct ?i ?j)
+    (true (coins ?i 1))
+    (true (coins ?j 1))
+    (or (between_two_coins ?i ?j)
+        (between_two_coins ?j ?i)))
+
+(<= (between_two_coins ?i ?j)
+    (index ?k1)
+    (index ?k2)
+    (succ ?i ?k1)
+    (succ ?k1 ?k2)
+    (succ ?k2 ?j)
+    (true (coins ?k1 1))
+    (true (coins ?k2 1)))
+
+(<= (next (coins ?i 0))
+    (does you (jump ?i ?j)))
+
+(<= (next (coins ?j 2))
+    (does you (jump ?i ?j)))
+
+(<= (next (coins ?i ?n))
+    (true (coins ?i ?n))
+    (not (does you (jump ?i ?j)))
+    (not (does you (jump ?k ?i))))
+
+(<= (next (step ?next))
+    (true (step ?current))
+    (succ ?current ?next)
+    (does you (jump ?i ?j)))
+
+(<= terminal
+    (not (can_jump)))
+
+(<= (can_jump)
+    (legal you (jump ?i ?j)))
+
+(<= (goal you 100)
+    (true (step 5))
+    (not (exists_one_coin)))
+
+(<= (goal you 0)
+    (or (not (true (step 5)))
+        (exists_one_coin)))
+
+(<= (exists_one_coin)
+    (index ?i)
+    (true (coins ?i 1)))
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)

@@ -1,0 +1,66 @@
+(role player1)
+(role player2)
+
+(init (heap a 11))
+(init (heap b 12))
+(init (heap c 15))
+(init (heap d 25))
+(init (control player1))
+
+(<= (legal player noop) (true (control player2)))
+(<= (legal player1 (reduce ?heap ?n))
+    (true (control player1))
+    (true (heap ?heap ?size))
+    (< ?n ?size))
+
+(<= (legal player2 (reduce ?heap ?n))
+    (true (control player2))
+    (true (heap ?heap ?size))
+    (< ?n ?size))
+
+(<= (next (heap ?heap ?newsize))
+    (does ?player (reduce ?heap ?n))
+    (true (heap ?heap ?size))
+    (subtract ?size ?n ?newsize))
+
+(<= (next (heap ?heap ?size))
+    (does ?player noop)
+    (true (heap ?heap ?size)))
+
+(<= (next (control player2))
+    (true (control player1))
+    (does player1 (reduce ?heap ?n)))
+
+(<= (next (control player1))
+    (true (control player2))
+    (does player2 (reduce ?heap ?n)))
+
+(<= (next (control player1))
+    (true (control player2))
+    (does player2 noop))
+
+(<= (next (control player2))
+    (true (control player1))
+    (does player1 noop))
+
+(<= terminal
+    (true (heap a 0))
+    (true (heap b 0))
+    (true (heap c 0))
+    (true (heap d 0)))
+
+(<= (goal player1 100)
+    (terminal)
+    (true (control player2)))
+
+(<= (goal player2 100)
+    (terminal)
+    (true (control player1)))
+
+(<= (goal player1 0)
+    (terminal)
+    (true (control player1)))
+
+(<= (goal player2 0)
+    (terminal)
+    (true (control player2)))

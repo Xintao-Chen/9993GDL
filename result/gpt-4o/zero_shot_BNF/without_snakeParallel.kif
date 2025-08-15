@@ -1,0 +1,98 @@
+(role snake)
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(direction up)
+(direction down)
+(direction left)
+(direction right)
+
+(init (step 0))
+(init (occupied 1 1))
+(init (occupied 2 1))
+(init (head 2 1))
+(init (grid1))
+(init (grid2))
+
+(<= (legal snake up)
+    (true (head ?x ?y))
+    (index ?x)
+    (index ?y)
+    (distinct ?y 4))
+
+(<= (legal snake down)
+    (true (head ?x ?y))
+    (index ?x)
+    (index ?y)
+    (distinct ?y 1))
+
+(<= (legal snake left)
+    (true (head ?x ?y))
+    (index ?x)
+    (index ?y)
+    (distinct ?x 1))
+
+(<= (legal snake right)
+    (true (head ?x ?y))
+    (index ?x)
+    (index ?y)
+    (distinct ?x 4))
+
+(<= (legal snake noop)
+    (not (legal snake up))
+    (not (legal snake down))
+    (not (legal snake left))
+    (not (legal snake right)))
+
+(<= (next (head ?newX ?newY))
+    (does snake ?dir)
+    (true (head ?x ?y))
+    (move ?x ?y ?dir ?newX ?newY))
+
+(<= (next (occupied ?newX ?newY))
+    (does snake ?dir)
+    (true (head ?x ?y))
+    (move ?x ?y ?dir ?newX ?newY))
+
+(<= (next (occupied ?x ?y))
+    (true (occupied ?x ?y))
+    (not (true (head ?x ?y)))
+    (not (does snake noop)))
+
+(<= (next (step ?nextStep))
+    (true (step ?step))
+    (succ ?step ?nextStep))
+
+(<= (terminal)
+    (true (step 20)))
+
+(<= (terminal)
+    (true (head ?x ?y))
+    (true (occupied ?x ?y))
+    (distinct (head ?x ?y) (occupied ?x ?y)))
+
+(<= (goal snake 100)
+    (forall (?x ?y) 
+        (or (true (occupied ?x ?y))
+            (true (head ?x ?y)))))
+
+(<= (goal snake 0)
+    (not (goal snake 100)))
+
+(<= (move ?x ?y up ?x ?newY)
+    (succ ?y ?newY))
+
+(<= (move ?x ?y down ?x ?newY)
+    (succ ?newY ?y))
+
+(<= (move ?x ?y left ?newX ?y)
+    (succ ?newX ?x))
+
+(<= (move ?x ?y right ?newX ?y)
+    (succ ?x ?newX))
+
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)

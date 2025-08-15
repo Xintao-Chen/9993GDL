@@ -1,0 +1,135 @@
+(role snake)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4)
+
+(init (step 0) (head 1 1) (body (1 1) (2 1)))
+
+(<= (legal snake (move?dir))
+    (not (true (atBoundary?dir)))
+    (not (true (collision?dir))))
+
+(<= (legal snake noop)
+    (true (atBoundary?dir)))
+
+(<= (next (head?x?y))
+    (role snake)
+    (does snake (move?dir))
+    (true (at?x?y?dir)))
+
+(<= (next (body?x?y))
+    (role snake)
+    (does snake (move?dir))
+    (not (true (at?x?y?dir))))
+
+(<= (next (body?x?y))
+    (role snake)
+    (does snake (move?dir))
+    (true (at?x?y?dir))
+    (not (true (atHead?x?y))))
+
+(<= (next (step?s))
+    (role snake)
+    (does snake (move?dir))
+    (not (true (collision?dir))))
+
+(<= (next (step?s))
+    (role snake)
+    (does snake (move?dir))
+    (true (collision?dir))
+    (terminal))
+
+(<= (next (step?s))
+    (role snake)
+    (does snake noop)
+    (not (true (terminal))))
+
+(<= terminal
+    (true (collision?dir)))
+
+(<= (goal snake 100)
+    (terminal))
+
+(<= (goal snake 0)
+    (terminal)
+    (open))
+
+(<= (at?x?y?dir)
+    (role snake)
+    (does snake (move?dir))
+    (true (head?x?y)))
+
+(<= (atHead?x?y)
+    (role snake)
+    (does snake (move?dir))
+    (true (at?x?y?dir)))
+
+(<= (atBoundary?dir)
+    (role snake)
+    (does snake (move?dir))
+    (true (atBoundary?x?y?dir)))
+
+(<= (atBoundary?x?y?dir)
+    (or (eq?x 1 and eq?dir 1)
+        (eq?x 4 and eq?dir -1)
+        (eq?y 1 and eq?dir -1)
+        (eq?y 4 and eq?dir 1)))
+
+(<= (collision?dir)
+    (role snake)
+    (does snake (move?dir))
+    (true (selfCollision?dir)))
+
+(<= (selfCollision?dir)
+    (role snake)
+    (does snake (move?dir))
+    (or (eq?x?x2 and eq?y?y2 and eq?x?x3 and eq?y?y3)
+        (eq?x?x2 and eq?y?y2 and eq?x?x3 and eq?y?y3)))
+
+(<= (open)
+    (role snake)
+    (not (true (at?x?y x))))
+
+(<= (open)
+    (role snake)
+    (not (true (at?x?y o))))
+
+(<= (open)
+    (role snake)
+    (index?i)
+    (index?j)
+    (not (true (at?i?j x)))
+    (not (true (at?i?j o))))
+
+(<= (at?x?y?mark)
+    (role snake)
+    (does snake (move?dir))
+    (true (head?x?y))
+    (true (atHead?x?y))
+    (true (mark?x?y?mark)))
+
+(<= (mark?x?y?mark)
+    (role snake)
+    (does snake (move?dir))
+    (true (head?x?y))
+    (not (true (at?x?y?mark))))
+
+(<= (mark?x?y?mark)
+    (role snake)
+    (does snake noop)
+    (true (head?x?y))
+    (true (at?x?y?mark)))
+
+(<= (body?x?y)
+    (role snake)
+    (does snake (move?dir))
+    (true (head?x?y))
+    (not (true (at?x?y?mark))))
+
+(<= (body?x?y)
+    (role snake)
+    (does snake noop)
+    (true (head?x?y))
+    (true (at?x?y?mark)))

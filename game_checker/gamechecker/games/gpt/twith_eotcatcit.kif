@@ -1,0 +1,117 @@
+(role white)
+(role black)
+
+(init (cell 1 1 b))
+(init (cell 1 2 b))
+(init (cell 1 3 b))
+(init (cell 2 1 b))
+(init (cell 2 2 b))
+(init (cell 2 3 b))
+(init (cell 3 1 b))
+(init (cell 3 2 b))
+(init (cell 3 3 b))
+(init (control white))
+
+(cell 1)
+(cell 2)
+(cell 3)
+
+(mark_white x)
+(mark_black o)
+
+(<= (legal ?player (mark ?x ?y))
+    (true (control ?player))
+    (cell ?x)
+    (cell ?y)
+    (true (cell ?x ?y b)))
+
+(<= (legal ?player noop)
+    (role ?player)
+    (role ?other)
+    (true (control ?other))
+    (distinct ?player ?other))
+
+(<= (next (cell ?x ?y x))
+    (does white (mark ?x ?y)))
+
+(<= (next (cell ?x ?y o))
+    (does black (mark ?x ?y)))
+
+(<= (next (cell ?x ?y ?m))
+    (true (cell ?x ?y ?m))
+    (not (does white (mark ?x ?y)))
+    (not (does black (mark ?x ?y))))
+
+(<= (next (control white))
+    (true (control black)))
+
+(<= (next (control black))
+    (true (control white)))
+
+(<= (terminal)
+    (line x))
+
+(<= (terminal)
+    (line o))
+
+(<= (terminal)
+    (not (line x))
+    (not (line o))
+    (not (cell_empty)))
+
+(<= (goal white 100)
+    (line o))
+
+(<= (goal white 0)
+    (line x))
+
+(<= (goal white 50)
+    (not (line x))
+    (not (line o))
+    (not (cell_empty)))
+
+(<= (goal black 100)
+    (line x))
+
+(<= (goal black 0)
+    (line o))
+
+(<= (goal black 50)
+    (not (line x))
+    (not (line o))
+    (not (cell_empty)))
+
+(<= (line ?m)
+    (row ?r ?m))
+
+(<= (line ?m)
+    (col ?c ?m))
+
+(<= (line ?m)
+    (diag1 ?m))
+
+(<= (line ?m)
+    (diag2 ?m))
+
+(<= (row ?r ?m)
+    (true (cell ?r 1 ?m))
+    (true (cell ?r 2 ?m))
+    (true (cell ?r 3 ?m)))
+
+(<= (col ?c ?m)
+    (true (cell 1 ?c ?m))
+    (true (cell 2 ?c ?m))
+    (true (cell 3 ?c ?m)))
+
+(<= (diag1 ?m)
+    (true (cell 1 1 ?m))
+    (true (cell 2 2 ?m))
+    (true (cell 3 3 ?m)))
+
+(<= (diag2 ?m)
+    (true (cell 1 3 ?m))
+    (true (cell 2 2 ?m))
+    (true (cell 3 1 ?m)))
+
+(<= (cell_empty)
+    (true (cell ?x ?y b)))

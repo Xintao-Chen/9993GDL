@@ -1,0 +1,190 @@
+(role xplayer)
+(role oplayer)
+
+(init (control xplayer))
+(init (board1 a b c d e f g h i))
+(init (board2 a b c d e f g h i))
+(init (cell board1 a blank))
+(init (cell board1 b blank))
+(init (cell board1 c blank))
+(init (cell board1 d blank))
+(init (cell board1 e blank))
+(init (cell board1 f blank))
+(init (cell board1 g blank))
+(init (cell board1 h blank))
+(init (cell board1 i blank))
+(init (cell board2 a blank))
+(init (cell board2 b blank))
+(init (cell board2 c blank))
+(init (cell board2 d blank))
+(init (cell board2 e blank))
+(init (cell board2 f blank))
+(init (cell board2 g blank))
+(init (cell board2 h blank))
+(init (cell board2 i blank))
+
+(<= (legal xplayer (mark Board Pos))
+    (true (control xplayer))
+    (true (cell Board Pos blank))
+    (not (line Board x))
+    (member Pos (board1 a b c d e f g h i)))
+
+(<= (legal oplayer (mark Board Pos))
+    (true (control oplayer))
+    (true (cell Board Pos blank))
+    (not (line Board o))
+    (member Pos (board2 a b c d e f g h i)))
+
+(<= (legal xplayer noop)
+    (not (legal xplayer (mark Board Pos))))
+
+(<= (legal oplayer noop)
+    (not (legal oplayer (mark Board Pos))))
+
+(<= (next (cell Board Pos x))
+    (does xplayer (mark Board Pos))
+    (true (cell Board Pos blank)))
+
+(<= (next (cell Board Pos o))
+    (does oplayer (mark Board Pos))
+    (true (cell Board Pos blank)))
+
+(<= (next (cell Board Pos Mark))
+    (true (cell Board Pos Mark))
+    (not (does xplayer (mark Board Pos)))
+    (not (does oplayer (mark Board Pos))))
+
+(<= (next (control oplayer))
+    (true (control xplayer))
+    (does xplayer (mark Board Pos)))
+
+(<= (next (control xplayer))
+    (true (control oplayer))
+    (does oplayer (mark Board Pos)))
+
+(<= (line Board Mark)
+    (true (cell Board a Mark))
+    (true (cell Board b Mark))
+    (true (cell Board c Mark)))
+
+(<= (line Board Mark)
+    (true (cell Board d Mark))
+    (true (cell Board e Mark))
+    (true (cell Board f Mark)))
+
+(<= (line Board Mark)
+    (true (cell Board g Mark))
+    (true (cell Board h Mark))
+    (true (cell Board i Mark)))
+
+(<= (line Board Mark)
+    (true (cell Board a Mark))
+    (true (cell Board d Mark))
+    (true (cell Board g Mark)))
+
+(<= (line Board Mark)
+    (true (cell Board b Mark))
+    (true (cell Board e Mark))
+    (true (cell Board h Mark)))
+
+(<= (line Board Mark)
+    (true (cell Board c Mark))
+    (true (cell Board f Mark))
+    (true (cell Board i Mark)))
+
+(<= (line Board Mark)
+    (true (cell Board a Mark))
+    (true (cell Board e Mark))
+    (true (cell Board i Mark)))
+
+(<= (line Board Mark)
+    (true (cell Board c Mark))
+    (true (cell Board e Mark))
+    (true (cell Board g Mark)))
+
+(<= (full Board)
+    (true (cell Board a Mark))
+    (true (cell Board b Mark))
+    (true (cell Board c Mark))
+    (true (cell Board d Mark))
+    (true (cell Board e Mark))
+    (true (cell Board f Mark))
+    (true (cell Board g Mark))
+    (true (cell Board h Mark))
+    (true (cell Board i Mark)))
+
+(<= terminal
+    (line board1 x)
+    (line board2 x))
+
+(<= terminal
+    (line board1 o)
+    (line board2 o))
+
+(<= terminal
+    (line board1 x)
+    (full board2))
+
+(<= terminal
+    (line board2 x)
+    (full board1))
+
+(<= terminal
+    (line board1 o)
+    (full board2))
+
+(<= terminal
+    (line board2 o)
+    (full board1))
+
+(<= terminal
+    (full board1)
+    (full board2))
+
+(<= (goal xplayer 100)
+    (line board1 x)
+    (line board2 x))
+
+(<= (goal xplayer 75)
+    (line board1 x)
+    (not (line board2 o)))
+
+(<= (goal xplayer 75)
+    (line board2 x)
+    (not (line board1 o)))
+
+(<= (goal xplayer 25)
+    (line board1 o)
+    (not (line board2 x)))
+
+(<= (goal xplayer 25)
+    (line board2 o)
+    (not (line board1 x)))
+
+(<= (goal xplayer 0)
+    (line board1 o)
+    (line board2 o))
+
+(<= (goal oplayer 100)
+    (line board1 o)
+    (line board2 o))
+
+(<= (goal oplayer 75)
+    (line board1 o)
+    (not (line board2 x)))
+
+(<= (goal oplayer 75)
+    (line board2 o)
+    (not (line board1 x)))
+
+(<= (goal oplayer 25)
+    (line board1 x)
+    (not (line board2 o)))
+
+(<= (goal oplayer 25)
+    (line board2 x)
+    (not (line board1 o)))
+
+(<= (goal oplayer 0)
+    (line board1 x)
+    (line board2 x))

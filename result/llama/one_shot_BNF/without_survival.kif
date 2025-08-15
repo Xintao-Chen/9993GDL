@@ -1,0 +1,67 @@
+(role robot)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+
+(init (state s1))
+
+(<= (legal robot a)
+    (true (state s1)))
+(<= (legal robot b)
+    (true (state s1)))
+(<= (legal robot c)
+    (true (state s1)))
+(<= (legal robot d)
+    (true (state s1)))
+(<= (legal robot e)
+    (true (state s1)))
+(<= (legal robot f)
+    (true (state s1)))
+(<= (legal robot g)
+    (true (state s7)))
+
+(<= (next (state s2))
+    (role robot)
+    (does robot a))
+(<= (next (state s3))
+    (role robot)
+    (does robot b))
+(<= (next (state s4))
+    (role robot)
+    (does robot c))
+(<= (next (state s5))
+    (role robot)
+    (does robot d))
+(<= (next (state s6))
+    (role robot)
+    (does robot e))
+(<= (next (state s7))
+    (role robot)
+    (does robot f))
+(<= (next (state s8))
+    (role robot)
+    (does robot g))
+
+(<= terminal
+    (state s2))
+(<= terminal
+    (state s3))
+(<= terminal
+    (state s4))
+(<= terminal
+    (state s5))
+(<= terminal
+    (state s6))
+(<= terminal
+    (state s8))
+
+(<= (goal robot 100)
+    (state s8))
+(<= (goal robot 0)
+    (not (state s8)))

@@ -1,0 +1,108 @@
+(role robot)
+(init (step 0))
+(init (cell 1 1 0))
+(init (cell 1 2 0))
+(init (cell 1 3 0))
+(init (cell 1 4 0))
+(init (cell 2 1 0))
+(init (cell 2 2 0))
+(init (cell 2 3 0))
+(init (cell 2 4 0))
+(init (cell 3 1 0))
+(init (cell 3 2 0))
+(init (cell 3 3 0))
+(init (cell 3 4 0))
+(init (cell 4 1 0))
+(init (cell 4 2 0))
+(init (cell 4 3 0))
+(init (cell 4 4 0))
+
+(<= (legal robot (press ?x1 ?y1 ?x2 ?y2 ?x3 ?y3 ?x4 ?y4))
+    (index12 ?x1) (index12 ?y1)
+    (index34 ?x2) (index34 ?y2)
+    (index34 ?x3) (index34 ?y3)
+    (index34 ?x4) (index34 ?y4))
+
+(<= (next (cell ?x ?y ?newValue))
+    (true (cell ?x ?y ?value))
+    (does robot (press ?x1 ?y1 ?x2 ?y2 ?x3 ?y3 ?x4 ?y4))
+    (or (and (distinct ?x ?x1) (distinct ?y ?y1))
+        (and (distinct ?x ?x2) (distinct ?y ?y2))
+        (and (distinct ?x ?x3) (distinct ?y ?y3))
+        (and (distinct ?x ?x4) (distinct ?y ?y4)))
+    (succ ?value ?newValue))
+
+(<= (next (cell ?x ?y 4))
+    (does robot (press ?x ?y ?x2 ?y2 ?x3 ?y3 ?x4 ?y4)))
+
+(<= (next (step ?nextStep))
+    (true (step ?step))
+    (succ ?step ?nextStep))
+
+(<= (lightsOn1)
+    (true (cell 1 1 4))
+    (true (cell 1 2 4))
+    (true (cell 2 1 4))
+    (true (cell 2 2 4)))
+
+(<= (lightsOn2)
+    (true (cell 1 3 4))
+    (true (cell 1 4 4))
+    (true (cell 2 3 4))
+    (true (cell 2 4 4)))
+
+(<= (lightsOn3)
+    (true (cell 3 1 4))
+    (true (cell 3 2 4))
+    (true (cell 4 1 4))
+    (true (cell 4 2 4)))
+
+(<= (lightsOn4)
+    (true (cell 3 3 4))
+    (true (cell 3 4 4))
+    (true (cell 4 3 4))
+    (true (cell 4 4 4)))
+
+(<= terminal
+    (true (step 20)))
+
+(<= terminal
+    (lightsOn1))
+
+(<= terminal
+    (lightsOn2))
+
+(<= terminal
+    (lightsOn3))
+
+(<= terminal
+    (lightsOn4))
+
+(<= (goal robot 100)
+    (lightsOn1))
+
+(<= (goal robot 100)
+    (lightsOn2))
+
+(<= (goal robot 100)
+    (lightsOn3))
+
+(<= (goal robot 100)
+    (lightsOn4))
+
+(<= (goal robot 0)
+    (not (lightsOn1))
+    (not (lightsOn2))
+    (not (lightsOn3))
+    (not (lightsOn4))
+    (terminal))
+
+(index12 1)
+(index12 2)
+(index34 3)
+(index34 4)
+
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)

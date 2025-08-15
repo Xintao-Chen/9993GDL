@@ -1,0 +1,72 @@
+(role red)
+(role blue)
+
+(init (position red 3 3))
+(init (position blue 8 8))
+(init (visited 3 3))
+(init (visited 8 8))
+
+(<= (legal ?player (move ?x ?y))
+    (true (position ?player ?px ?py))
+    (does ?player (move ?x ?y))
+    (adjacent ?px ?py ?x ?y)
+    (not (wall ?x ?y))
+    (not (true (visited ?x ?y)))
+    (not (occupied ?x ?y)))
+
+(<= (adjacent ?px ?py ?x ?y)
+    (or (and (= ?x (+ ?px 1)) (= ?y ?py))
+        (and (= ?x (- ?px 1)) (= ?y ?py))
+        (and (= ?x ?px) (= ?y (+ ?py 1)))
+        (and (= ?x ?px) (= ?y (- ?py 1)))))
+
+(<= (wall ?x ?y)
+    (or (= ?x 0) (= ?x 11) (= ?y 0) (= ?y 11)))
+
+(<= (occupied ?x ?y)
+    (or (true (position red ?x ?y))
+        (true (position blue ?x ?y))))
+
+(<= (next (position ?player ?x ?y))
+    (does ?player (move ?x ?y)))
+
+(<= (next (visited ?x ?y))
+    (or (true (visited ?x ?y))
+        (does ?player (move ?x ?y))))
+
+(<= (terminal)
+    (or (collision)
+        (wall-hit red)
+        (wall-hit blue)))
+
+(<= (collision)
+    (true (position red ?x ?y))
+    (true (position blue ?x ?y)))
+
+(<= (wall-hit ?player)
+    (true (position ?player ?px ?py))
+    (wall ?px ?py))
+
+(<= (goal red 100)
+    (wall-hit blue)
+    (not (wall-hit red)))
+
+(<= (goal red 0)
+    (wall-hit red)
+    (not (wall-hit blue)))
+
+(<= (goal red 50)
+    (or (collision)
+        (and (wall-hit red) (wall-hit blue))))
+
+(<= (goal blue 100)
+    (wall-hit red)
+    (not (wall-hit blue)))
+
+(<= (goal blue 0)
+    (wall-hit blue)
+    (not (wall-hit red)))
+
+(<= (goal blue 50)
+    (or (collision)
+        (and (wall-hit red) (wall-hit blue))))

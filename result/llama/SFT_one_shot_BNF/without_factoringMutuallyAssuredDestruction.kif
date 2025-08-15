@@ -1,0 +1,81 @@
+(role robot)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+(index 9)
+(index 10)
+
+(init (counter 1) (cell 1 1 0) (cell 1 2 0) (cell 1 3 0) (cell 1 4 0) (cell 1 5 0) (cell 1 6 0) (cell 1 7 0) (cell 1 8 0) (cell 1 9 0) (cell 1 10 0) (cell 2 1 0) (cell 2 2 0) (cell 2 3 0) (cell 2 4 0) (cell 2 5 0) (cell 2 6 0) (cell 2 7 0) (cell 2 8 0) (cell 2 9 0) (cell 2 10 0))
+
+(<= (legal (press?i?j))
+    (index?i)
+    (index?j)
+    (>=?i 1)
+    (<=?i 2)
+    (>=?j 1)
+    (<=?j 10))
+
+(<= (next (cell?i?j 4))
+    (role robot)
+    (does robot (press?i?j)))
+
+(<= (next (cell?i?j?val))
+    (true (cell?i?j?val))
+    (>=?val 1)
+    (<=?val 4)
+    (succ?val?next)
+    (not (true (cell?i?j 0))))
+
+(<= (next (cell?i?j 0))
+    (true (cell?i?j 0)))
+
+(<= (next (counter?count))
+    (role robot)
+    (does robot (press?i?j))
+    (succ?count?next))
+
+(<= (next (lightson?count))
+    (true (lightson?count))
+    (>=?count 1)
+    (<=?count 9)
+    (succ?count?next))
+
+(<= (next (lightson 0))
+    (true (lightson 0)))
+
+(<= terminal
+    (true (lightson 9))
+    (true (counter 21)))
+
+(<= (goal robot 100)
+    (true (lightson 9)))
+
+(<= (goal robot 0)
+    (true (lightson 0))
+    (not (true (lightson 9))))
+
+(<= (cell?i?j?val)
+    (index?i)
+    (index?j)
+    (>=?i 1)
+    (<=?i 2)
+    (>=?j 1)
+    (<=?j 10))
+
+(<= (lightson?count)
+    (index?count)
+    (>=?count 0)
+    (<=?count 9))
+
+(<= (succ?x?y)
+    (>=?x 0)
+    (<=?x 4)
+    (>=?y 1)
+    (<=?y 5)
+    (=?y?x + 1))

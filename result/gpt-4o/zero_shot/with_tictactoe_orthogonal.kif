@@ -1,0 +1,124 @@
+(role xplayer)
+(role oplayer)
+
+(init (cell 1 1 blank))
+(init (cell 1 2 blank))
+(init (cell 1 3 blank))
+(init (cell 2 1 blank))
+(init (cell 2 2 blank))
+(init (cell 2 3 blank))
+(init (cell 3 1 blank))
+(init (cell 3 2 blank))
+(init (cell 3 3 blank))
+(init (control xplayer))
+
+(<= (legal xplayer (mark X Y))
+    (true (control xplayer))
+    (true (cell X Y blank)))
+
+(<= (legal oplayer (mark X Y))
+    (true (control oplayer))
+    (true (cell X Y blank)))
+
+(<= (legal xplayer noop)
+    (true (control oplayer)))
+
+(<= (legal oplayer noop)
+    (true (control xplayer)))
+
+(<= (next (cell X Y x))
+    (does xplayer (mark X Y))
+    (true (cell X Y blank)))
+
+(<= (next (cell X Y o))
+    (does oplayer (mark X Y))
+    (true (cell X Y blank)))
+
+(<= (next (cell X Y V))
+    (true (cell X Y V))
+    (distinct V blank))
+
+(<= (next (control oplayer))
+    (true (control xplayer)))
+
+(<= (next (control xplayer))
+    (true (control oplayer)))
+
+(<= (line X)
+    (true (cell X 1 x))
+    (true (cell X 2 x))
+    (true (cell X 3 x)))
+
+(<= (line Y)
+    (true (cell 1 Y x))
+    (true (cell 2 Y x))
+    (true (cell 3 Y x)))
+
+(<= (line X)
+    (true (cell X 1 o))
+    (true (cell X 2 o))
+    (true (cell X 3 o)))
+
+(<= (line Y)
+    (true (cell 1 Y o))
+    (true (cell 2 Y o))
+    (true (cell 3 Y o)))
+
+(<= (full)
+    (true (cell 1 1 V1))
+    (true (cell 1 2 V2))
+    (true (cell 1 3 V3))
+    (true (cell 2 1 V4))
+    (true (cell 2 2 V5))
+    (true (cell 2 3 V6))
+    (true (cell 3 1 V7))
+    (true (cell 3 2 V8))
+    (true (cell 3 3 V9))
+    (distinct V1 blank)
+    (distinct V2 blank)
+    (distinct V3 blank)
+    (distinct V4 blank)
+    (distinct V5 blank)
+    (distinct V6 blank)
+    (distinct V7 blank)
+    (distinct V8 blank)
+    (distinct V9 blank))
+
+(<= terminal
+    (line X))
+
+(<= terminal
+    (line Y))
+
+(<= terminal
+    (full))
+
+(<= (goal xplayer 100)
+    (line X)
+    (true (control xplayer)))
+
+(<= (goal oplayer 100)
+    (line Y)
+    (true (control oplayer)))
+
+(<= (goal xplayer 50)
+    (not (line X))
+    (not (line Y))
+    (full)
+    (true (control oplayer)))
+
+(<= (goal oplayer 50)
+    (not (line X))
+    (not (line Y))
+    (full)
+    (true (control xplayer)))
+
+(<= (goal xplayer 0)
+    (not (line X))
+    (not (line Y))
+    (not (full)))
+
+(<= (goal oplayer 0)
+    (not (line X))
+    (not (line Y))
+    (not (full)))

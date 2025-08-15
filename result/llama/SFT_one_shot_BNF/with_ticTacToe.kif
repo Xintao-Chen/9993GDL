@@ -1,0 +1,44 @@
+(role xPlayer)
+(role oPlayer)
+
+(index 1)
+(index 2)
+(index 3)
+
+(init (control xPlayer) (board 1 1 'b) (board 1 2 'b) (board 1 3 'b) (board 2 1 'b) (board 2 2 'b) (board 2 3 'b) (board 3 1 'b) (board 3 2 'b) (board 3 3 'b))
+
+(<= (legal xPlayer noop) (true (control oPlayer)))
+(<= (legal xPlayer (play?i?j x)) (true (control xPlayer)) (emptyCell?i?j))
+(<= (legal oPlayer noop) (true (control xPlayer)))
+(<= (legal oPlayer (play?i?j o)) (true (control oPlayer)) (emptyCell?i?j))
+
+(<= (next (board?i?j?mark)) (role?player) (does?player (play?i?j?mark)))
+(<= (next (board?i?j?mark)) (true (board?i?j?mark)))
+(<= (next (control xPlayer)) (true (control oPlayer)))
+(<= (next (control oPlayer)) (true (control xPlayer)))
+(<= (next (board?i?j 'b)) (true (control oPlayer)) (true (board?i?j 'b)))
+(<= (next (board?i?j 'b)) (true (control xPlayer)) (true (board?i?j 'b)))
+
+(<= terminal (line x))
+(<= terminal (line o))
+(<= terminal (not open))
+
+(<= (goal xPlayer 100) (line x))
+(<= (goal xPlayer 50) (not (line x)) (not (line o)) (not open))
+(<= (goal xPlayer 0) (line o))
+(<= (goal oPlayer 100) (line o))
+(<= (goal oPlayer 50) (not (line x)) (not (line o)) (not open))
+(<= (goal oPlayer 0) (line x))
+(<= (goal?player 50) (not (line x)) (not (line o)) (not open))
+
+(<= (row?i?mark) (index?i) (true (board?i 1?mark)) (true (board?i 2?mark)) (true (board?i 3?mark)))
+(<= (col?j?mark) (index?j) (true (board 1?j?mark)) (true (board 2?j?mark)) (true (board 3?j?mark)))
+(<= (diag?mark) (true (board 1 1?mark)) (true (board 2 2?mark)) (true (board 3 3?mark)))
+(<= (diag?mark) (true (board 1 3?mark)) (true (board 2 2?mark)) (true (board 3 1?mark)))
+
+(<= (line?mark) (index?i) (row?i?mark))
+(<= (line?mark) (index?j) (col?j?mark))
+(<= (line?mark) (diag?mark))
+
+(<= (emptyCell?i?j) (index?i) (index?j) (not (true (board?i?j x))) (not (true (board?i?j o))))
+(<= open (emptyCell?i?j))

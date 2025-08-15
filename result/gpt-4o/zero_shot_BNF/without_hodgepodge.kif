@@ -1,0 +1,108 @@
+(role white)
+(role black)
+
+(init (clear b))
+(init (clear c))
+(init (occupied a c))
+(init (table a))
+(init (table b))
+(init (step 1))
+
+(adjacent a b)
+(adjacent b c)
+(adjacent c d)
+(adjacent d a)
+
+(<= (legal white (s ?src ?dst))
+    (true (clear ?src))
+    (true (table ?src))
+    (distinct ?src ?dst)
+    (adjacent ?src ?dst))
+
+(<= (legal white (u ?src ?dst))
+    (true (clear ?src))
+    (true (table ?src))
+    (distinct ?src ?dst)
+    (adjacent ?src ?dst))
+
+(<= (legal black move))
+(<= (legal black (grab ?cell))
+    (true (gold ?cell)))
+(<= (legal black (drop ?cell))
+    (true (holding gold)))
+
+(<= (next (clear ?dst))
+    (does white (s ?src ?dst))
+    (true (clear ?src))
+    (true (table ?src))
+    (distinct ?src ?dst)
+    (adjacent ?src ?dst))
+
+(<= (next (occupied ?dst ?obj))
+    (does white (s ?src ?dst))
+    (true (occupied ?src ?obj))
+    (true (clear ?src))
+    (true (table ?src))
+    (distinct ?src ?dst)
+    (adjacent ?src ?dst))
+
+(<= (next (clear ?src))
+    (does white (u ?src ?dst))
+    (true (occupied ?src ?obj))
+    (true (clear ?src))
+    (true (table ?src))
+    (distinct ?src ?dst)
+    (adjacent ?src ?dst))
+
+(<= (next (occupied ?dst ?obj))
+    (does white (u ?src ?dst))
+    (true (occupied ?src ?obj))
+    (true (clear ?src))
+    (true (table ?src))
+    (distinct ?src ?dst)
+    (adjacent ?src ?dst))
+
+(<= (next (gold ?dst))
+    (does black (grab ?src))
+    (true (gold ?src)))
+
+(<= (next (holding gold))
+    (does black (grab ?src))
+    (true (gold ?src)))
+
+(<= (next (gold ?dst))
+    (does black (drop ?dst))
+    (true (holding gold)))
+
+(<= (next (clear ?src))
+    (does black (drop ?dst))
+    (true (holding gold)))
+
+(<= (next (step ?next))
+    (true (step ?current))
+    (succ ?current ?next))
+
+(<= terminal
+    (true (step 2)))
+
+(<= terminal
+    (true (occupied a ?obj1))
+    (true (occupied b ?obj2))
+    (true (occupied c ?obj3)))
+
+(<= terminal
+    (true (gold a)))
+
+(<= (goal white 100)
+    (true (occupied a ?obj1))
+    (true (occupied b ?obj2))
+    (true (occupied c ?obj3)))
+
+(<= (goal black 100)
+    (true (gold a)))
+
+(<= (goal white 0)
+    (not (goal white 100)))
+
+(<= (goal black 0)
+    (not (goal black 100)))

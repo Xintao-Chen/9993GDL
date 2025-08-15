@@ -1,0 +1,106 @@
+(role robot)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+(index 9)
+
+(init (control robot) (numQueens 8) (boardSize 8))
+
+(<= (legal (place?i?j))
+    (role robot)
+    (true (index?i))
+    (true (index?j))
+    (true (emptyCell?i?j)))
+
+(<= (next (place?i?j?mark))
+    (role robot)
+    (does robot (place?i?j))
+    (true (mark?i?j?mark))
+    (true (numQueens?numQueens))
+    (true (if (?numQueens = 1) (true (goal robot 100)))))
+
+(<= (next (numQueens?numQueens))
+    (role robot)
+    (does robot (place?i?j))
+    (true (numQueens?numQueens1))
+    (true (?numQueens1 =?numQueens - 1)))
+
+(<= (next (control robot))
+    (role robot)
+    (true (control robot)))
+
+(<= (next (control?))
+    (role robot)
+    (true (control?)))
+
+(<= terminal
+    (true (numQueens 0)))
+
+(<= (goal robot 100)
+    (true (numQueens 0))
+    (true (not (underAttack?i?j)))
+    (forall (?i) (?j) (true (index?i)) (true (index?j))))
+
+(<= (goal robot 0)
+    (true (numQueens 0))
+    (exists (?i) (?j) (true (index?i)) (true (index?j))
+    (true (underAttack?i?j))))
+
+(<= (underAttack?i?j)
+    (exists (?i1) (?j1)
+        (true (index?i1))
+        (true (index?j1))
+        (true (mark?i1?j1 x))
+        (or
+            (or
+                (or (=?i?i1) (=?j?j1))
+                (and (= (+?i?j) (+?i1?j1))
+                    (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize))))
+            (and (= (+?i?j) (-?i1?j1))
+                (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize)))
+            (and (= (-?i?j) (+?i1?j1))
+                (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize)))
+            (and (= (-?i?j) (-?i1?j1))
+                (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize))))))
+
+(<= (emptyCell?i?j)
+    (index?i)
+    (index?j)
+    (forall (?i1) (?j1)
+        (true (index?i1))
+        (true (index?j1))
+        (true (mark?i1?j1 x))
+        (or
+            (or
+                (or (=?i?i1) (=?j?j1))
+                (and (= (+?i?j) (+?i1?j1))
+                    (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize))))
+            (and (= (+?i?j) (-?i1?j1))
+                (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize)))
+            (and (= (-?i?j) (+?i1?j1))
+                (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize)))
+            (and (= (-?i?j) (-?i1?j1))
+                (and (>=?i1 1) (>=?j1 1) (<=?i1?boardSize) (<=?j1?boardSize)))))))
+
+(<= (mark?i?j?mark)
+    (index?i)
+    (index?j)
+    (not (emptyCell?i?j))
+    (not (mark?i?j?mark1))
+    (forall (?i1) (?j1)
+        (true (index?i1))
+        (true (index?j1))
+        (not (mark?i1?j1?mark))))
+
+(<= (index?i)
+    (>=?i 1)
+    (<=?i?boardSize))
+
+(<= (boardSize?boardSize)
+    (>=?boardSize 4))

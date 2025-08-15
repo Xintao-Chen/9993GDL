@@ -1,0 +1,84 @@
+(role red)
+(role blue)
+
+(init (control red))
+(init (piece_count red 0))
+(init (piece_count blue 0))
+
+(<= (legal ?player (move ?x ?n))
+    (true (control ?player))
+    (valid_cell ?x ?n)
+    (not (occupied ?x ?n)))
+
+(<= (legal red noop)
+    (true (control blue)))
+
+(<= (legal blue noop)
+    (true (control red)))
+
+(<= (next (occupied ?x ?n))
+    (does ?player (move ?x ?n)))
+
+(<= (next (piece_count ?player ?new_count))
+    (does ?player (move ?x ?n))
+    (true (piece_count ?player ?count))
+    (succ ?count ?new_count))
+
+(<= (next (control red))
+    (does red (move ?x ?n))
+    (not (adjacent_opposing_pieces ?x ?n red)))
+
+(<= (next (control blue))
+    (does blue (move ?x ?n))
+    (not (adjacent_opposing_pieces ?x ?n blue)))
+
+(<= (next (control blue))
+    (does red (move ?x ?n))
+    (adjacent_opposing_pieces ?x ?n red))
+
+(<= (next (control red))
+    (does blue (move ?x ?n))
+    (adjacent_opposing_pieces ?x ?n blue))
+
+(<= (terminal)
+    (true (piece_count red 19)))
+
+(<= (terminal)
+    (true (piece_count blue 19)))
+
+(<= (goal red 100)
+    (true (piece_count red 19)))
+
+(<= (goal blue 0)
+    (true (piece_count red 19)))
+
+(<= (goal blue 100)
+    (true (piece_count blue 19)))
+
+(<= (goal red 0)
+    (true (piece_count blue 19)))
+
+% Define valid cells and adjacency rules
+% (valid_cell ?x ?n) - Defines the valid cells on the board
+% (adjacent_opposing_pieces ?x ?n ?player) - Checks if a move creates two adjacent opposing pieces
+
+% Define successor relation for piece count
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+(succ 8 9)
+(succ 9 10)
+(succ 10 11)
+(succ 11 12)
+(succ 12 13)
+(succ 13 14)
+(succ 14 15)
+(succ 15 16)
+(succ 16 17)
+(succ 17 18)
+(succ 18 19)

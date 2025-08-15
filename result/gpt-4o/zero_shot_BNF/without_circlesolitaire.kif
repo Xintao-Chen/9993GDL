@@ -1,0 +1,70 @@
+(role taker)
+(init (position p1 green))
+(init (position p2 green))
+(init (position p3 red))
+(init (position p4 red))
+(init (position p5 green))
+(init (position p6 red))
+(init (position p7 green))
+(init (position p8 red))
+(init (reset s0))
+(adjacent p1 p2)
+(adjacent p2 p3)
+(adjacent p3 p4)
+(adjacent p4 p5)
+(adjacent p5 p6)
+(adjacent p6 p7)
+(adjacent p7 p8)
+
+(<= (legal taker (remove ?pos))
+    (true (position ?pos green)))
+
+(<= (legal taker reset)
+    (true (reset ?s))
+    (distinct ?s s3))
+
+(<= (legal taker noop)
+    (true (reset s3)))
+
+(<= (next (position ?pos empty))
+    (does taker (remove ?pos)))
+
+(<= (next (position ?pos ?color))
+    (true (position ?pos ?color))
+    (not (does taker (remove ?pos))))
+
+(<= (next (reset s0))
+    (does taker reset))
+
+(<= (next (reset s1))
+    (true (reset s0))
+    (does taker noop))
+
+(<= (next (reset s2))
+    (true (reset s1))
+    (does taker noop))
+
+(<= (next (reset s3))
+    (true (reset s2))
+    (does taker noop))
+
+(<= terminal
+    (forall ?pos (true (position ?pos empty))))
+
+(<= terminal
+    (true (reset s3)))
+
+(<= (goal taker 100)
+    (forall ?pos (true (position ?pos empty)))
+    (true (reset s0)))
+
+(<= (goal taker 66)
+    (forall ?pos (true (position ?pos empty)))
+    (true (reset s1)))
+
+(<= (goal taker 33)
+    (forall ?pos (true (position ?pos empty)))
+    (true (reset s2)))
+
+(<= (goal taker 0)
+    (true (reset s3)))

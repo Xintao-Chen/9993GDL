@@ -1,0 +1,115 @@
+(role mouse)
+(role catcher)
+
+(init (control catcher))
+(init (mouse-at 7 1))
+(init (turn 1))
+
+(<= (legal mouse (move ?x ?y))
+    (true (control mouse))
+    (true (mouse-at ?x1 ?y1))
+    (adjacent ?x1 ?y1 ?x ?y)
+    (not (occupied ?x ?y)))
+
+(<= (legal catcher (lay-trap ?x ?y))
+    (true (control catcher))
+    (not (occupied ?x ?y))
+    (index ?x)
+    (index ?y))
+
+(<= (legal mouse noop)
+    (true (control catcher)))
+
+(<= (legal catcher noop)
+    (true (control mouse)))
+
+(<= (next (mouse-at ?x ?y))
+    (does mouse (move ?x ?y)))
+
+(<= (next (occupied ?x ?y))
+    (does catcher (lay-trap ?x ?y)))
+
+(<= (next (occupied ?x ?y))
+    (true (occupied ?x ?y)))
+
+(<= (next (control mouse))
+    (true (control catcher)))
+
+(<= (next (control catcher))
+    (true (control mouse)))
+
+(<= (next (turn ?n1))
+    (true (turn ?n))
+    (succ ?n ?n1))
+
+(<= (terminal)
+    (true (mouse-at ?x ?y))
+    (hole ?x ?y))
+
+(<= (terminal)
+    (true (mouse-at ?x ?y))
+    (occupied ?x ?y))
+
+(<= (terminal)
+    (true (turn 20)))
+
+(<= (goal mouse 100)
+    (true (mouse-at ?x ?y))
+    (hole ?x ?y))
+
+(<= (goal catcher 100)
+    (true (mouse-at ?x ?y))
+    (occupied ?x ?y))
+
+(<= (goal mouse 0)
+    (true (mouse-at ?x ?y))
+    (occupied ?x ?y))
+
+(<= (goal catcher 0)
+    (true (mouse-at ?x ?y))
+    (hole ?x ?y))
+
+(<= (goal mouse 50)
+    (true (turn 20)))
+
+(<= (goal catcher 50)
+    (true (turn 20)))
+
+(adjacent ?x1 ?y ?x2 ?y) 
+    (succ ?x1 ?x2)
+    (index ?y)
+
+(adjacent ?x1 ?y ?x2 ?y) 
+    (succ ?x2 ?x1)
+    (index ?y)
+
+(adjacent ?x ?y1 ?x ?y2) 
+    (succ ?y1 ?y2)
+    (index ?x)
+
+(adjacent ?x ?y1 ?x ?y2) 
+    (succ ?y2 ?y1)
+    (index ?x)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+(index 9)
+(index h)
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+(succ 8 9)
+
+(hole 1 1)
+(hole 9 h)

@@ -1,0 +1,128 @@
+(role taker)
+
+(index p1) 
+(index p2) 
+(index p3) 
+(index p4) 
+(index p5) 
+(index p6) 
+(index p7) 
+(index p8)
+
+(init (color p1 green) (color p2 green) (color p5 green) (color p7 green) (color p3 red) (color p4 red) (color p6 red) (color p8 red) (reset s0))
+
+(<= (legal taker noop) 
+    (true (reset s0)))
+
+(<= (legal taker (remove?p green)) 
+    (role taker) 
+    (true (color?p green)))
+
+(<= (legal taker (reset)) 
+    (role taker))
+
+(<= (next (color?p empty)) 
+    (role taker) 
+    (does taker (remove?p green)))
+
+(<= (next (color?p green)) 
+    (role taker) 
+    (does taker (remove?p red)))
+
+(<= (next (color?p red)) 
+    (role taker) 
+    (does taker (remove?p green)))
+
+(<= (next (color?p red)) 
+    (role taker) 
+    (does taker (remove?p red)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 green) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p7 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p7 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 green) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p6 red)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p6 red)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 red) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p7 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 red) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 green) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p6 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 green) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 green) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 green) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p6 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p6 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 red) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p7 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 green) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p6 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 green) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 green) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 green) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p6 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 red)) 
+    (role taker) 
+    (does taker (remove p6 red)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 red) (color?p7 red) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p8 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?p5 green) (color?p6 green) (color?p7 red) (color?p8 green)) 
+    (role taker) 
+    (does taker (remove p7 green)))
+
+(<= (next (color?p1 green) (color?p2 green) (color?p3 red) (color?p4 red) (color?

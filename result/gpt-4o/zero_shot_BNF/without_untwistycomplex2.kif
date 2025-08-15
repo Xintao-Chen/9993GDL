@@ -1,0 +1,81 @@
+(role robot)
+(init (state q1))
+(init (step 1))
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+
+(<= (legal robot ?action)
+    (true (state q1))
+    (member ?action (a b c d e f g h noop)))
+
+(<= (legal robot noop)
+    (true (state p)))
+
+(<= (next (state q1))
+    (does robot ?action)
+    (member ?action (a b c d e f g))
+    (true (state q1)))
+
+(<= (next (state p))
+    (does robot ?action)
+    (member ?action (a b c d e f g))
+    (true (state p)))
+
+(<= (next (state q2))
+    (does robot h)
+    (true (state q1))
+    (not (true (state p))))
+
+(<= (next (state q3))
+    (does robot h)
+    (true (state q2)))
+
+(<= (next (state q4))
+    (does robot h)
+    (true (state q3)))
+
+(<= (next (state q5))
+    (does robot h)
+    (true (state q4)))
+
+(<= (next (state q6))
+    (does robot h)
+    (true (state q5)))
+
+(<= (next (state q7))
+    (does robot h)
+    (true (state q6)))
+
+(<= (next (state q8))
+    (does robot h)
+    (true (state q7)))
+
+(<= (next (step ?next))
+    (true (step ?current))
+    (succ ?current ?next))
+
+(<= terminal
+    (true (step 8)))
+
+(<= (goal robot 100)
+    (true (state q8))
+    (true (step 8)))
+
+(<= (goal robot 0)
+    (not (true (state q8)))
+    (true (step 8)))
+
+(member a (a b c d e f g h noop))
+(member b (a b c d e f g h noop))
+(member c (a b c d e f g h noop))
+(member d (a b c d e f g h noop))
+(member e (a b c d e f g h noop))
+(member f (a b c d e f g h noop))
+(member g (a b c d e f g h noop))
+(member h (a b c d e f g h noop))
+(member noop (a b c d e f g h noop))

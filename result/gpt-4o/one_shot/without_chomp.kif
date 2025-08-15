@@ -1,0 +1,76 @@
+(role player1)
+(role player2)
+
+(number 1)
+(number 2)
+(number 3)
+(number 4)
+(number 5)
+(number 6)
+(number 7)
+(number 8)
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+
+(init (control player1))
+
+(<= (init (chocolate ?x ?y))
+    (number ?x)
+    (number ?y))
+
+(<= (legal player1 noop)
+    (true (control player2)))
+(<= (legal player1 (bite ?x ?y))
+    (true (control player1))
+    (true (chocolate ?x ?y)))
+(<= (legal player2 noop)
+    (true (control player1)))
+(<= (legal player2 (bite ?x ?y))
+    (true (control player2))
+    (true (chocolate ?x ?y)))
+
+(<= (next (chocolate ?x ?y))
+    (true (chocolate ?x ?y))
+    (not (does ?player (bite ?bx ?by)))
+    (or (succ ?bx ?x)
+        (succ ?by ?y)))
+
+(<= (next (control player1))
+    (true (control player2)))
+(<= (next (control player2))
+    (true (control player1)))
+
+(<= terminal
+    (true (poisoned player1)))
+(<= terminal
+    (true (poisoned player2)))
+
+(<= (goal player1 100)
+    (true (poisoned player2)))
+(<= (goal player1 0)
+    (true (poisoned player1)))
+(<= (goal player1 0)
+    (not (true (poisoned player1)))
+    (not (true (poisoned player2))))
+
+(<= (goal player2 100)
+    (true (poisoned player1)))
+(<= (goal player2 0)
+    (true (poisoned player2)))
+(<= (goal player2 0)
+    (not (true (poisoned player1)))
+    (not (true (poisoned player2))))
+
+(<= (next (poisoned ?player))
+    (does ?player (bite 1 1)))
+
+(<= (emptyCell ?x ?y)
+    (number ?x)
+    (number ?y)
+    (not (true (chocolate ?x ?y))))

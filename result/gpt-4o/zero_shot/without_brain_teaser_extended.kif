@@ -1,0 +1,88 @@
+(role player)
+
+(init (step 0))
+(init (cell 1 1 yellow))
+(init (cell 1 2 yellow))
+(init (cell 1 3 yellow))
+(init (cell 2 1 yellow))
+(init (cell 2 2 yellow))
+(init (cell 2 3 yellow))
+(init (cell 3 1 yellow))
+(init (cell 3 2 yellow))
+(init (cell 3 3 yellow))
+
+(<= (legal player (select ?x ?y))
+    (true (cell ?x ?y yellow))
+    (not (all_orange)))
+
+(<= (legal player noop)
+    (not (all_orange)))
+
+(<= (legal player celebrate)
+    (all_orange))
+
+(<= (next (cell ?x ?y orange))
+    (does player (select ?x ?y))
+    (true (cell ?x ?y yellow)))
+
+(<= (next (cell ?x ?y yellow))
+    (does player (select ?x ?y))
+    (true (cell ?x ?y orange)))
+
+(<= (next (cell ?x ?y ?color))
+    (true (cell ?x ?y ?color))
+    (not (does player (select ?x ?y))))
+
+(<= (next (step ?next))
+    (true (step ?n))
+    (succ ?n ?next))
+
+(<= (terminal)
+    (true (step 15)))
+
+(<= (terminal)
+    (all_orange))
+
+(<= (goal player 100)
+    (true (step 10))
+    (all_orange))
+
+(<= (goal player 80)
+    (true (step ?n))
+    (all_orange)
+    (distinct ?n 10))
+
+(<= (goal player 40)
+    (true (cell a a orange))
+    (not (all_orange)))
+
+(<= (goal player 0)
+    (not (true (cell a a yellow)))
+    (not (true (cell a a orange))))
+
+(<= (all_orange)
+    (true (cell 1 1 orange))
+    (true (cell 1 2 orange))
+    (true (cell 1 3 orange))
+    (true (cell 2 1 orange))
+    (true (cell 2 2 orange))
+    (true (cell 2 3 orange))
+    (true (cell 3 1 orange))
+    (true (cell 3 2 orange))
+    (true (cell 3 3 orange)))
+
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+(succ 8 9)
+(succ 9 10)
+(succ 10 11)
+(succ 11 12)
+(succ 12 13)
+(succ 13 14)
+(succ 14 15)

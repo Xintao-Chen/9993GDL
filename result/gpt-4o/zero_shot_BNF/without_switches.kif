@@ -1,0 +1,35 @@
+(role red)
+(role white)
+(role blue)
+
+(init (state off))
+(init (state red))
+(init (state dim))
+(init (state start))
+
+(<= (legal red a) (true (state off)))
+(<= (legal red b) (true (state on)))
+(<= (legal white c) (true (state red)))
+(<= (legal white d) (true (state green)))
+(<= (legal blue e) (true (state dim)))
+(<= (legal blue f) (true (state bright)))
+(<= (legal ?player noop) (role ?player))
+
+(<= (next (state on)) (does red a) (true (state off)))
+(<= (next (state off)) (does red b) (true (state on)))
+(<= (next (state green)) (does white c) (true (state red)))
+(<= (next (state red)) (does white d) (true (state green)))
+(<= (next (state bright)) (does blue e) (true (state dim)))
+(<= (next (state dim)) (does blue f) (true (state bright)))
+(<= (next (state end)) (true (state start)))
+
+(<= (next (state ?s)) (true (state ?s)) (not (does red a)) (not (does red b)) (not (does white c)) (not (does white d)) (not (does blue e)) (not (does blue f)) (not (true (state start))))
+
+(<= terminal (true (state end)))
+
+(<= (goal red 100) (true (state on)))
+(<= (goal red 0) (not (true (state on))))
+(<= (goal white 100) (true (state green)))
+(<= (goal white 0) (not (true (state green))))
+(<= (goal blue 100) (true (state bright)))
+(<= (goal blue 0) (not (true (state bright))))

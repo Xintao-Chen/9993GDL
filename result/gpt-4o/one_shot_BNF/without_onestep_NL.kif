@@ -1,0 +1,52 @@
+(role white)
+(role black)
+
+(init (state o1))
+(init (control white))
+
+(<= (legal white a)
+    (true (control white)))
+(<= (legal white b)
+    (true (control white)))
+(<= (legal white noop)
+    (true (control black)))
+(<= (legal black a)
+    (true (control black)))
+(<= (legal black b)
+    (true (control black)))
+(<= (legal black noop)
+    (true (control white)))
+
+(<= (next (state o2))
+    (true (state o1))
+    (does white a))
+(<= (next (state o3))
+    (true (state o1))
+    (does white b))
+(<= (next (state ?s))
+    (true (state ?s))
+    (does ?player noop))
+
+(<= (next (control white))
+    (true (control black)))
+(<= (next (control black))
+    (true (control white)))
+
+(<= terminal
+    (true (state o2)))
+(<= terminal
+    (true (state o3)))
+
+(<= (goal white 10)
+    (true (state o2)))
+(<= (goal white 90)
+    (true (state o3)))
+(<= (goal white 0)
+    (true (state o1)))
+
+(<= (goal black 90)
+    (true (state o2)))
+(<= (goal black 10)
+    (true (state o3)))
+(<= (goal black 0)
+    (true (state o1)))

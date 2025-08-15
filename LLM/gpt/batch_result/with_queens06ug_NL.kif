@@ -1,0 +1,86 @@
+(role robot)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+
+(init (control robot))
+(init (queens 0))
+
+(<= (legal robot (place ?i ?j))
+    (true (control robot))
+    (emptyCell ?i ?j))
+
+(<= (next (mark ?i ?j queen))
+    (does robot (place ?i ?j)))
+(<= (next (mark ?i ?j ?mark))
+    (true (mark ?i ?j ?mark)))
+
+(<= (next (queens ?n1))
+    (true (queens ?n))
+    (succ ?n ?n1)
+    (does robot (place ?i ?j)))
+
+(<= terminal
+    (true (queens 8)))
+
+(<= (goal robot 100)
+    (true (queens 8))
+    (not (attacking)))
+(<= (goal robot 0)
+    (true (queens 8))
+    (attacking))
+
+(<= (attacking)
+    (index ?i1)
+    (index ?j1)
+    (index ?i2)
+    (index ?j2)
+    (true (mark ?i1 ?j1 queen))
+    (true (mark ?i2 ?j2 queen))
+    (distinct ?i1 ?i2)
+    (distinct ?j1 ?j2)
+    (or (sameRow ?i1 ?i2)
+        (sameCol ?j1 ?j2)
+        (sameDiag ?i1 ?j1 ?i2 ?j2)))
+
+(<= (sameRow ?i ?i))
+
+(<= (sameCol ?j ?j))
+
+(<= (sameDiag ?i1 ?j1 ?i2 ?j2)
+    (or (plus ?i1 ?j1 ?sum1)
+        (plus ?i2 ?j2 ?sum2)
+        (distinct ?sum1 ?sum2))
+    (or (minus ?i1 ?j1 ?diff1)
+        (minus ?i2 ?j2 ?diff2)
+        (distinct ?diff1 ?diff2)))
+
+(<= (emptyCell ?i ?j)
+    (index ?i)
+    (index ?j)
+    (not (true (mark ?i ?j queen))))
+
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+
+(<= (plus ?x ?y ?z)
+    (succ ?x ?x1)
+    (plus ?x1 ?y ?z))
+(<= (plus 0 ?y ?y))
+
+(<= (minus ?x ?y ?z)
+    (succ ?y ?y1)
+    (minus ?x ?y1 ?z))
+(<= (minus ?x 0 ?x))

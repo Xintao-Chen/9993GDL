@@ -1,0 +1,40 @@
+(role robot)
+
+(init (depth level1))
+(init (previous_goal 0))
+
+(<= (legal robot c1) true)
+(<= (legal robot c2) true)
+(<= (legal robot c3) true)
+(<= (legal robot c4) true)
+
+(<= (next (depth level2)) (true (depth level1)))
+(<= (next (depth level3)) (true (depth level2)))
+(<= (next (depth level4)) (true (depth level3)))
+(<= (next (depth level5)) (true (depth level4)))
+
+(<= (next (previous_goal NewGoal))
+    (true (depth Depth))
+    (current_goal Depth NewGoal))
+
+(<= (terminal) (true (depth level5)))
+
+(<= (goal robot 25) (true (depth level5)) (satisfies_criteria 25))
+(<= (goal robot 50) (true (depth level5)) (satisfies_criteria 50))
+(<= (goal robot 75) (true (depth level5)) (satisfies_criteria 75))
+(<= (goal robot 100) (true (depth level5)) (satisfies_criteria 100))
+
+(<= (satisfies_criteria 25) (true (previous_goal 25)))
+(<= (satisfies_criteria 50) (true (previous_goal 50)))
+(<= (satisfies_criteria 75) (true (previous_goal 75)))
+(<= (satisfies_criteria 100) (true (previous_goal 100)))
+
+(<= (current_goal level1 25) (true (robot_moved c1)))
+(<= (current_goal level2 50) (true (robot_moved c2)))
+(<= (current_goal level3 75) (true (robot_moved c3)))
+(<= (current_goal level4 100) (true (robot_moved c4)))
+
+(<= (robot_moved c1) (does robot c1))
+(<= (robot_moved c2) (does robot c2))
+(<= (robot_moved c3) (does robot c3))
+(<= (robot_moved c4) (does robot c4))

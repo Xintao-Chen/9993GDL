@@ -1,0 +1,52 @@
+(role robot)
+
+(index 1) 
+(index 2)
+
+(init (round 0) (cell 1 1 0) (cell 1 2 0) (cell 2 1 0) (cell 2 2 0))
+
+(<= (legal robot (press?x?y))
+    (true (role robot))
+    (true (index?x))
+    (true (index?y))
+    (not (true (cell?x?y 4))))
+
+(<= (legal robot noop)
+    (true (role robot)))
+
+(<= (next (cell?x?y 4))
+    (role robot)
+    (does robot (press?x?y)))
+(<= (next (cell?x?y 0))
+    (role robot)
+    (does robot noop))
+(<= (next (cell?x?y?z))
+    (role robot)
+    (does robot noop)
+    (not (true (cell?x?y 0))))
+(<= (next (round?r))
+    (role robot)
+    (does robot noop)
+    (eq?r 2)
+    (not (eq?r 3)))
+
+(<= terminal
+    (and (cell 1 1 4)
+         (cell 1 2 4)
+         (cell 2 1 4)
+         (cell 2 2 4)))
+(<= terminal
+    (eq (round 3) 3))
+
+(<= (goal robot 100)
+    (terminal))
+(<= (goal robot 100)
+    (eq (round 3) 3))
+(<= (goal robot 0)
+    (not (terminal)))
+
+(<= (lightson)
+    (cell 1 1 4)
+    (cell 1 2 4)
+    (cell 2 1 4)
+    (cell 2 2 4))

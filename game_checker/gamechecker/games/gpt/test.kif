@@ -1,0 +1,17 @@
+(role p1) (role p2)
+; 所有可能动作
+(<= (legal ?R rock)  (role ?R))
+(<= (legal ?R paper) (role ?R))
+(<= (legal ?R scissor) (role ?R))
+
+(init 1)
+(next 1)
+; 终局 = 双方都出了拳
+(terminal 1)
+
+; 得分：只依赖一次性的 does
+(<= (goal p1 100) (does p1 rock)    (does p2 scissor))
+(<= (goal p1 100) (does p1 paper)   (does p2 rock))
+(<= (goal p1 100) (does p1 scissor) (does p2 paper))
+(<= (goal p1 50)  (does p1 ?X) (does p2 ?X))        ; 平局
+(<= (goal p1 0)   (role p1))            

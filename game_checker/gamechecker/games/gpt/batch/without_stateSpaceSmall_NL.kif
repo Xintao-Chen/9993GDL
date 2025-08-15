@@ -1,0 +1,63 @@
+(role robot)
+
+(depth level1)
+(depth level2)
+(depth level3)
+(depth level4)
+(depth level5)
+
+(direction c1)
+(direction c2)
+(direction c3)
+(direction c4)
+
+(init (position level1))
+(init (previous_goal 0))
+
+(<= (legal robot ?direction)
+    (direction ?direction))
+
+(<= (next (position ?next_level))
+    (true (position ?current_level))
+    (depth ?current_level)
+    (depth ?next_level)
+    (succ ?current_level ?next_level))
+
+(<= (next (previous_goal ?goal))
+    (true (position ?level))
+    (true (previous_goal ?goal))
+    (goal_condition ?level ?goal))
+
+(<= terminal
+    (true (position level5)))
+
+(<= (goal robot 25)
+    (true (position ?level))
+    (goal_condition ?level 25))
+(<= (goal robot 50)
+    (true (position ?level))
+    (goal_condition ?level 50))
+(<= (goal robot 75)
+    (true (position ?level))
+    (goal_condition ?level 75))
+(<= (goal robot 100)
+    (true (position ?level))
+    (goal_condition ?level 100))
+
+(<= (goal_condition level1 25)
+    (true (previous_goal 0))
+    (does robot c1))
+(<= (goal_condition level2 50)
+    (true (previous_goal 25))
+    (does robot c2))
+(<= (goal_condition level3 75)
+    (true (previous_goal 50))
+    (does robot c3))
+(<= (goal_condition level4 100)
+    (true (previous_goal 75))
+    (does robot c4))
+
+(<= (succ level1 level2))
+(<= (succ level2 level3))
+(<= (succ level3 level4))
+(<= (succ level4 level5))

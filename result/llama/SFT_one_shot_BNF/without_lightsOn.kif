@@ -1,0 +1,65 @@
+(role robot)
+
+(index 1)
+(index 2)
+(index 1 1)
+(index 1 2)
+(index 2 1)
+(index 2 2)
+
+(init (state 1 1 0) (state 1 2 0) (state 2 1 0) (state 2 2 0) (step 0))
+
+(<= (legal robot (press?i?j))
+    (index?i)
+    (index?j)
+    (<=?i 2)
+    (<=?j 2))
+
+(<= (legal robot noop)
+    (true))
+
+(<= (next (state?i?j 4))
+    (role robot)
+    (does robot (press?i?j)))
+
+(<= (next (state?i?j?state))
+    (true)
+    (<=?state 3)
+    (<=?state 1))
+
+(<= (next (step?step))
+    (true)
+    (<=?step 19))
+
+(<= (next (step 20))
+    (true)
+    (<= (or (state 1 1 0) (state 1 2 0) (state 2 1 0) (state 2 2 0)) 0))
+
+(<= terminal
+    (<= (or (state 1 1 0) (state 1 2 0) (state 2 1 0) (state 2 2 0)) 0)
+    (<= (step 20))
+    (true))
+
+(<= (goal robot 100)
+    (lightsOn))
+
+(<= (goal robot 0)
+    (true))
+
+(<= (lightsOn)
+    (true (state 1 1 4))
+    (true (state 1 2 4))
+    (true (state 2 1 4))
+    (true (state 2 2 4)))
+
+(<= (noop?i?j?state)
+    (true)
+    (<=?state 0)
+    (<=?state 4))
+
+(<= (state?i?j?state)
+    (index?i)
+    (index?j)
+    (<=?i 2)
+    (<=?j 2)
+    (<=?state 4))

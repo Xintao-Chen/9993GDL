@@ -1,0 +1,99 @@
+(role crosser)
+(role blocker)
+
+(init (cell 1 1 b))
+(init (cell 1 2 b))
+(init (cell 1 3 b))
+(init (cell 1 4 b))
+(init (cell 2 1 b))
+(init (cell 2 2 b))
+(init (cell 2 3 b))
+(init (cell 2 4 b))
+(init (cell 3 1 b))
+(init (cell 3 2 b))
+(init (cell 3 3 b))
+(init (cell 3 4 b))
+(init (cell 4 1 b))
+(init (cell 4 2 b))
+(init (cell 4 3 b))
+(init (cell 4 4 b))
+(init (control crosser))
+
+(<= (legal crosser (mark X Y)) 
+    (true (cell X Y b))
+    (true (control crosser)))
+
+(<= (legal blocker (mark X Y)) 
+    (true (cell X Y b))
+    (true (control blocker)))
+
+(<= (legal crosser noop) 
+    (not (true (control crosser))))
+
+(<= (legal blocker noop) 
+    (not (true (control blocker))))
+
+(<= (next (cell X Y c))
+    (does crosser (mark X Y))
+    (true (cell X Y b)))
+
+(<= (next (cell X Y b))
+    (does crosser (mark X Y))
+    (true (cell X Y c)))
+
+(<= (next (cell X Y b))
+    (does blocker (mark X Y))
+    (true (cell X Y c)))
+
+(<= (next (cell X Y b))
+    (does blocker (mark X Y))
+    (true (cell X Y b)))
+
+(<= (next (cell X Y o))
+    (does blocker (mark X Y))
+    (true (cell X Y b)))
+
+(<= (next (control blocker))
+    (true (control crosser)))
+
+(<= (next (control crosser))
+    (true (control blocker)))
+
+(<= (connected 1 Y)
+    (true (cell 1 Y c)))
+
+(<= (connected X Y)
+    (true (cell X Y c))
+    (connected (X-1) Y))
+
+(<= (connected X Y)
+    (true (cell X Y c))
+    (connected X (Y-1)))
+
+(<= (connected X Y)
+    (true (cell X Y c))
+    (connected X (Y+1)))
+
+(<= (connected X Y)
+    (true (cell X Y c))
+    (connected (X+1) Y))
+
+(<= (terminal)
+    (connected 4 Y))
+
+(<= (terminal)
+    (not (true (cell X Y b))))
+
+(<= (goal crosser 100)
+    (connected 4 Y))
+
+(<= (goal blocker 0)
+    (connected 4 Y))
+
+(<= (goal crosser 0)
+    (not (true (cell X Y b)))
+    (not (connected 4 Y)))
+
+(<= (goal blocker 100)
+    (not (true (cell X Y b)))
+    (not (connected 4 Y)))

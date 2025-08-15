@@ -1,0 +1,205 @@
+(role player)
+
+(index 1) 
+(index 2) 
+(index 3)
+
+(init (blank 3 3) (step 0) (goal 0))
+
+(<= (legal player (move?i?j?x?y))
+    (true (adjacent?i?j?x?y))
+    (true (not (adjacent?i?j?x?y blank))))
+
+(<= (adjacent?i?j?x?y)
+    (true (or (=?i?x) (=?i?y) (=?j?x) (=?j?y)))
+    (true (and (index?i) (index?j) (index?x) (index?y))))
+
+(<= (adjacent?i?j blank?y)
+    (true (and (=?i?y) (or (=?j 1) (=?j 2) (=?j 3))))
+    (true (and (=?j?y) (or (=?i 1) (=?i 2) (=?i 3)))))
+
+(<= (adjacent?i?j?x blank)
+    (true (and (=?x?i) (or (=?j 1) (=?j 2) (=?j 3))))
+    (true (and (=?x?j) (or (=?i 1) (=?i 2) (=?i 3)))))
+
+(<= (next (blank?i?j))
+    (role player)
+    (does player (move?x?y?i?j)))
+(<= (next (blank?x?y))
+    (role player)
+    (does player (move?x?y?i?j)))
+(<= (next (step?x))
+    (role player)
+    (does player (move?i?j?x?y)))
+(<= (next (step?x))
+    (true (=?x 60)))
+(<= (next (goal?x))
+    (true (and (=?x 0) (ordered))))
+(<= (next (goal?x))
+    (true (and (=?x 1) (ordered))))
+
+(<= (ordered)
+    (true (and (index?i) (index?j) (index?x) (index?y)))
+    (true (and (=?i 1) (=?j 1) (=?x 2) (=?y 2) (=?z 3) (=?w 3) (=?t 4) (=?u 4) (=?v 5) (=?a 5) (=?b 6) (=?c 6) (=?d 7) (=?e 7) (=?f 8) (=?g 8) (=?h blank))))
+
+(<= (terminal)
+    (true (ordered))
+    (true (and (index?i) (index?j) (index?x) (index?y)))
+    (true (=?i 1) (=?j 1) (=?x 2) (=?y 2) (=?z 3) (=?w 3) (=?t 4) (=?u 4) (=?v 5) (=?a 5) (=?b 6) (=?c 6) (=?d 7) (=?e 7) (=?f 8) (=?g 8) (=?h blank)))
+    (true (=?x 60)))
+
+(<= (goal player 100)
+    (true (ordered)))
+(<= (goal player 99)
+    (true (and (not (ordered)) (=?x 30))))
+(<= (goal player 0)
+    (true (not (ordered))))
+(<= (goal player 0)
+    (true (=?x 60)))
+
+(<= (ordered)
+    (index?i)
+    (index?j)
+    (index?x)
+    (index?y)
+    (index?z)
+    (index?w)
+    (index?t)
+    (index?u)
+    (index?v)
+    (index?a)
+    (index?b)
+    (index?c)
+    (index?d)
+    (index?e)
+    (index?f)
+    (index?g)
+    (index?h)
+    (and (=?i 1) (=?j 1) (=?x 2) (=?y 2) (=?z 3) (=?w 3) (=?t 4) (=?u 4) (=?v 5) (=?a 5) (=?b 6) (=?c 6) (=?d 7) (=?e 7) (=?f 8) (=?g 8) (=?h blank)))
+
+(<= (next (blank?x?y))
+    (role player)
+    (does player (move?x?y?i?j)))
+
+(<= (next (blank?i?j))
+    (role player)
+    (does player (move?x?y?i?j)))
+
+(<= (next (blank?x?y))
+    (role player)
+    (does player (move?x?y?i?j)))
+
+(<= (next (step?x))
+    (role player)
+    (does player (move?i?j?x?y)))
+
+(<= (next (step?x))
+    (true (=?x 60)))
+
+(<= (next (goal?x))
+    (true (and (=?x 0) (ordered))))
+
+(<= (next (goal?x))
+    (true (and (=?x 1) (ordered))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 60))))
+
+(<= (next (goal?x))
+    (true (and (not (ordered)) (=?x 30))))
+
+(<= (next (goal?x))
+    (

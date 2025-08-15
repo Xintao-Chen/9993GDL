@@ -1,0 +1,111 @@
+(role robot)
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+
+(init (control robot))
+(init (remaining 8))
+
+(<= (legal robot (place ?i ?j))
+    (true (control robot))
+    (emptyCell ?i ?j))
+
+(<= (next (queen ?i ?j))
+    (does robot (place ?i ?j)))
+
+(<= (next (queen ?i ?j))
+    (true (queen ?i ?j)))
+
+(<= (next (remaining ?n))
+    (true (remaining ?m))
+    (succ ?n ?m))
+
+(<= (next (control robot))
+    (true (control robot))
+    (true (remaining ?m))
+    (succ 0 ?m))
+
+(<= terminal
+    (true (remaining 0)))
+
+(<= (goal robot 100)
+    (true (remaining 0))
+    (not (attacked)))
+
+(<= (goal robot 0)
+    (true (remaining 0))
+    (attacked))
+
+(<= (attacked)
+    (index ?i)
+    (index ?j)
+    (index ?k)
+    (index ?l)
+    (true (queen ?i ?j))
+    (true (queen ?k ?l))
+    (distinct ?i ?k)
+    (distinct ?j ?l)
+    (or (sameRow ?i ?k)
+        (sameCol ?j ?l)
+        (sameDiag ?i ?j ?k ?l)))
+
+(<= (sameRow ?i ?k)
+    (index ?i)
+    (index ?k)
+    (distinct ?i ?k))
+
+(<= (sameCol ?j ?l)
+    (index ?j)
+    (index ?l)
+    (distinct ?j ?l))
+
+(<= (sameDiag ?i ?j ?k ?l)
+    (index ?i)
+    (index ?j)
+    (index ?k)
+    (index ?l)
+    (or (sameSum ?i ?j ?k ?l)
+        (sameDiff ?i ?j ?k ?l)))
+
+(<= (sameSum ?i ?j ?k ?l)
+    (index ?i)
+    (index ?j)
+    (index ?k)
+    (index ?l)
+    (plus ?i ?j ?sum)
+    (plus ?k ?l ?sum))
+
+(<= (sameDiff ?i ?j ?k ?l)
+    (index ?i)
+    (index ?j)
+    (index ?k)
+    (index ?l)
+    (minus ?i ?j ?diff)
+    (minus ?k ?l ?diff))
+
+(<= (emptyCell ?i ?j)
+    (index ?i)
+    (index ?j)
+    (not (true (queen ?i ?j))))
+
+(<= (plus ?x ?y ?z)
+    (succ ?x ?y)
+    (succ ?y ?z))
+
+(<= (minus ?x ?y ?z)
+    (succ ?z ?y)
+    (succ ?y ?x))

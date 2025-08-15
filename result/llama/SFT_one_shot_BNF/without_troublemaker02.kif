@@ -1,0 +1,71 @@
+(role player)
+
+(index a)
+(index b1)
+(index b2)
+(index c)
+(index x)
+(index y1)
+(index y2)
+(index z)
+
+(init (at player a x))
+
+(<= (legal player move1)
+    (true (at player a b1))
+    (true (at player a b2))
+    (true (at player a c)))
+(<= (legal player move2)
+    (true (at player x y1))
+    (true (at player x y2))
+    (true (at player x z)))
+(<= (legal player noop)
+    (not (true (legal player move1)))
+    (not (true (legal player move2))))
+
+(<= (next (at player?i?j))
+    (role player)
+    (does player (move1?i?j)))
+(<= (next (at player?i?j))
+    (role player)
+    (does player (move2?i?j)))
+(<= (next (at player?i?j))
+    (true (at player?i?j)))
+
+(<= terminal
+    (and (at player c z))
+    (not (true (at player a x))))
+(<= terminal
+    (and (at player a x)
+        (at player z y2)))
+(<= terminal
+    (and (at player a z)
+        (at player c x)))
+(<= terminal
+    (and (at player b1 x)
+        (at player y1 z)))
+(<= terminal
+    (and (at player c y1)
+        (at player x b2)))
+
+(<= (goal player 100)
+    (terminal (at player c z)))
+(<= (goal player 0)
+    (terminal (at player c y1)))
+(<= (goal player 0)
+    (terminal (at player x b2)))
+(<= (goal player 0)
+    (terminal (at player b1 z)))
+(<= (goal player 0)
+    (terminal (at player a z)))
+
+(<= (move1 a b1))
+(<= (move1 a b2))
+(<= (move1 a c))
+(<= (move2 x y1))
+(<= (move2 x y2))
+(<= (move2 x z))
+
+(<= (at?i?j)
+    (index?i)
+    (index?j))

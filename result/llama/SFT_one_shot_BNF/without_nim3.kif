@@ -1,0 +1,33 @@
+(role player1)
+(role player2)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4) 
+(index 5)
+
+(init (control player1) (heap a 11) (heap b 12) (heap c 15) (heap d 25))
+
+(<= (legal player1 noop) (true (control player2)))
+(<= (legal player1 (reduce?heap?amt)) (true (control player1)) (true (heap?heap?size)) (true (?amt <?size)))
+(<= (legal player2 noop) (true (control player1)))
+(<= (legal player2 (reduce?heap?amt)) (true (control player2)) (true (heap?heap?size)) (true (?amt <?size)))
+
+(<= (next (heap?heap?size)) (true (reduce?heap?amt)) (true (?size =?size -?amt)))
+(<= (next (control player1)) (true (reduce?heap?amt)))
+(<= (next (control player2)) (true (reduce?heap?amt)))
+
+(<= terminal (true (heap a 0)) (true (heap b 0)) (true (heap c 0)) (true (heap d 0)))
+
+(<= (goal player1 100) (true (control player2)) (true (heap a 0)) (true (heap b 0)) (true (heap c 0)) (true (heap d 0)))
+(<= (goal player1 0) (true (control player1)) (true (heap a 0)) (true (heap b 0)) (true (heap c 0)) (true (heap d 0)))
+(<= (goal player2 100) (true (control player1)) (true (heap a 0)) (true (heap b 0)) (true (heap c 0)) (true (heap d 0)))
+(<= (goal player2 0) (true (control player2)) (true (heap a 0)) (true (heap b 0)) (true (heap c 0)) (true (heap d 0)))
+
+(<= (validHeap?heap) (index?heap))
+(<= (heapSize?heap?size) (true (heap?heap?size)))
+(<= (amt?amt) (true (?amt >= 0)))
+
+(<= (reduceHeap?heap?size?amt) (true (reduce?heap?amt)) (true (heapSize?heap?size)) (true (?amt <?size)))
+(<= (noReduce?heap?size) (true (reduce?heap?amt)) (true (heapSize?heap?size)) (true (?amt >=?size)))

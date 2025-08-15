@@ -1,0 +1,135 @@
+(role white)
+(role black)
+
+(init (step s1))
+(init (beaten white s0))
+(init (beaten black s0))
+
+(<= (legal white rock) (true (step _)))
+(<= (legal white paper) (true (step _)))
+(<= (legal white scissors) (true (step _)))
+(<= (legal white well) (true (step _)))
+
+(<= (legal black rock) (true (step _)))
+(<= (legal black paper) (true (step _)))
+(<= (legal black scissors) (true (step _)))
+(<= (legal black well) (true (step _)))
+
+(<= (next (step s2)) (true (step s1)))
+(<= (next (step s3)) (true (step s2)))
+(<= (next (step s4)) (true (step s3)))
+(<= (next (step s5)) (true (step s4)))
+(<= (next (step s6)) (true (step s5)))
+(<= (next (step s7)) (true (step s6)))
+(<= (next (step s8)) (true (step s7)))
+(<= (next (step s9)) (true (step s8)))
+(<= (next (step s10)) (true (step s9)))
+
+(<= (next (beaten white ?n)) 
+    (true (beaten white ?n)) 
+    (not (beats white black)))
+
+(<= (next (beaten black ?n)) 
+    (true (beaten black ?n)) 
+    (not (beats black white)))
+
+(<= (next (beaten white ?next)) 
+    (true (beaten white ?n)) 
+    (beats white black) 
+    (succ ?n ?next))
+
+(<= (next (beaten black ?next)) 
+    (true (beaten black ?n)) 
+    (beats black white) 
+    (succ ?n ?next))
+
+(<= (beats white black) 
+    (does white rock) 
+    (does black scissors))
+
+(<= (beats white black) 
+    (does white paper) 
+    (does black rock))
+
+(<= (beats white black) 
+    (does white paper) 
+    (does black well))
+
+(<= (beats white black) 
+    (does white scissors) 
+    (does black paper))
+
+(<= (beats white black) 
+    (does white well) 
+    (does black scissors))
+
+(<= (beats white black) 
+    (does white well) 
+    (does black rock))
+
+(<= (beats black white) 
+    (does black rock) 
+    (does white scissors))
+
+(<= (beats black white) 
+    (does black paper) 
+    (does white rock))
+
+(<= (beats black white) 
+    (does black paper) 
+    (does white well))
+
+(<= (beats black white) 
+    (does black scissors) 
+    (does white paper))
+
+(<= (beats black white) 
+    (does black well) 
+    (does white scissors))
+
+(<= (beats black white) 
+    (does black well) 
+    (does white rock))
+
+(<= (terminal) 
+    (true (beaten white s5)))
+
+(<= (terminal) 
+    (true (beaten black s5)))
+
+(<= (terminal) 
+    (true (step s10)))
+
+(<= (goal white 100) 
+    (true (beaten white ?n)) 
+    (true (beaten black ?m)) 
+    (greater ?n ?m))
+
+(<= (goal black 0) 
+    (true (beaten white ?n)) 
+    (true (beaten black ?m)) 
+    (greater ?n ?m))
+
+(<= (goal black 100) 
+    (true (beaten black ?n)) 
+    (true (beaten white ?m)) 
+    (greater ?n ?m))
+
+(<= (goal white 0) 
+    (true (beaten black ?n)) 
+    (true (beaten white ?m)) 
+    (greater ?n ?m))
+
+(<= (goal white 50) 
+    (true (beaten white ?n)) 
+    (true (beaten black ?n)))
+
+(<= (goal black 50) 
+    (true (beaten white ?n)) 
+    (true (beaten black ?n)))
+
+(succ s0 s1)
+(succ s1 s2)
+(succ s2 s3)
+(succ s3 s4)
+(succ s4 s5)

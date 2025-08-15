@@ -1,0 +1,38 @@
+(role player1)
+(role player2)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4)
+
+(init (control player1) (heap a 12) (heap b 12) (heap c 20) (heap d 20))
+
+(<= (legal player1 noop) (true (control player2)))
+(<= (legal player2 noop) (true (control player1)))
+(<= (legal player1 (reduce?heap?n)) (true (control player1)) (heap?heap?m) (gt?n?m))
+(<= (legal player2 (reduce?heap?n)) (true (control player2)) (heap?heap?m) (gt?n?m))
+
+(<= (next (heap?heap?n)) (true (control player1)) (does player1 (reduce?heap?n)))
+(<= (next (heap?heap?n)) (true (control player2)) (does player2 (reduce?heap?n)))
+(<= (next (heap?heap?m)) (true (heap?heap?m)))
+(<= (next (control player1)) (true (control player2)))
+(<= (next (control player2)) (true (control player1)))
+
+(<= terminal (eq (heap a 0) (true)) (eq (heap b 0) (true)) (eq (heap c 0) (true)) (eq (heap d 0) (true)))
+
+(<= (goal player1 100) (true (control player1) (eq (heap a 0) (true)) (eq (heap b 0) (true)) (eq (heap c 0) (true)) (eq (heap d 0) (true))))
+(<= (goal player1 0) (true (control player2) (eq (heap a 0) (true)) (eq (heap b 0) (true)) (eq (heap c 0) (true)) (eq (heap d 0) (true))))
+(<= (goal player2 100) (true (control player2) (eq (heap a 0) (true)) (eq (heap b 0) (true)) (eq (heap c 0) (true)) (eq (heap d 0) (true))))
+(<= (goal player2 0) (true (control player1) (eq (heap a 0) (true)) (eq (heap b 0) (true)) (eq (heap c 0) (true)) (eq (heap d 0) (true))))
+
+(<= (gt?n?m) (true (minus?m?n?d)) (true (gt?d 0)))
+
+(<= (heap?heap?m) (index?heap) (true (list heap?heap?m)))
+(<= (heap?heap?m) (index?heap) (true (eq?m (get?heap?i))))
+
+(<= (list heap?heap?m) (index?heap) (true (list heap?heap?m1)) (true (eq?m?m1)))
+
+(<= (get?heap?i) (index?i) (true (get?heap?i?v)))
+
+(<= (minus?m?n?d) (true (minus?m?n?d1)) (true (eq?d?d1)))

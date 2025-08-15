@@ -1,0 +1,29 @@
+(role white)
+(role black)
+
+(init o1)
+
+(<= (legal white a) (true o1))
+(<= (legal white b) (true o1))
+(<= (legal white noop) (true o2))
+(<= (legal white noop) (true o3))
+(<= (legal black a) (true o2))
+(<= (legal black b) (true o2))
+(<= (legal black noop) (true o3))
+
+(<= (next o2) (does white a) (true o1))
+(<= (next o3) (does white b) (true o1))
+(<= (next o2) (true o2) (does black a))
+(<= (next o3) (true o2) (does black b))
+(<= (next o3) (true o3) (does white noop))
+(<= (next o3) (true o3) (does black noop))
+
+(<= terminal (true o2))
+(<= terminal (true o3))
+
+(<= (goal white 10) (true o2))
+(<= (goal black 90) (true o2))
+(<= (goal white 90) (true o3))
+(<= (goal black 10) (true o3))
+(<= (goal white 0) (true o1))
+(<= (goal black 0) (true o1))

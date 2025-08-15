@@ -1,0 +1,81 @@
+(role white)
+(role black)
+
+(init (control white))
+(init (white_payoff 5))
+(init (black_payoff 0))
+(init (round 1))
+
+(succ 5 10)
+(succ 10 15)
+(succ 15 20)
+(succ 20 25)
+(succ 25 30)
+(succ 30 35)
+(succ 35 40)
+(succ 40 45)
+(succ 45 50)
+(succ 50 55)
+(succ 55 60)
+(succ 60 65)
+(succ 65 70)
+(succ 70 75)
+(succ 75 80)
+(succ 80 85)
+(succ 85 90)
+(succ 90 95)
+
+(legal white finish) 
+(legal white continue) 
+(legal black finish) 
+(legal black continue)
+
+(<= (legal white noop) (not (true (control white))))
+(<= (legal black noop) (not (true (control black))))
+
+(<= (next (control black)) (true (control white)) (does white continue))
+(<= (next (control white)) (true (control black)) (does black continue))
+
+(<= (next (white_payoff NewPayoff)) 
+    (true (white_payoff Payoff)) 
+    (does white continue) 
+    (succ Payoff NewPayoff))
+
+(<= (next (black_payoff NewPayoff)) 
+    (true (black_payoff Payoff)) 
+    (does white continue) 
+    (succ Payoff NewPayoff))
+
+(<= (next (black_payoff NewPayoff)) 
+    (true (black_payoff Payoff)) 
+    (does black continue) 
+    (succ Payoff NewPayoff))
+
+(<= (next (round NewRound)) 
+    (true (round Round)) 
+    (succ Round NewRound))
+
+(<= terminal (does white finish))
+(<= terminal (does black finish))
+(<= terminal (true (black_payoff 95)))
+(<= terminal (true (round 18)))
+
+(<= (goal white Payoff) 
+    terminal 
+    (true (white_payoff Payoff)))
+
+(<= (goal black Payoff) 
+    terminal 
+    (true (black_payoff Payoff)))
+
+(<= (goal white 0) 
+    terminal 
+    (not (does white finish)) 
+    (not (does black finish)) 
+    (not (true (black_payoff 95))))
+
+(<= (goal black 0) 
+    terminal 
+    (not (does white finish)) 
+    (not (does black finish)) 
+    (not (true (black_payoff 95))))

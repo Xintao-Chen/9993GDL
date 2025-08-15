@@ -1,0 +1,28 @@
+(role robot)
+
+(init (depth level1))
+(init (previous_goal 0))
+
+(<= (legal robot c1) (true (depth level1)))
+(<= (legal robot c2) (true (depth level2)))
+(<= (legal robot c3) (true (depth level3)))
+(<= (legal robot c4) (true (depth level4)))
+
+(<= (next (depth level2)) (does robot c1) (true (depth level1)))
+(<= (next (depth level3)) (does robot c2) (true (depth level2)))
+(<= (next (depth level4)) (does robot c3) (true (depth level3)))
+(<= (next (depth level5)) (does robot c4) (true (depth level4)))
+
+(<= (next (previous_goal 25)) (does robot c1) (true (depth level1)))
+(<= (next (previous_goal 50)) (does robot c2) (true (depth level2)))
+(<= (next (previous_goal 75)) (does robot c3) (true (depth level3)))
+(<= (next (previous_goal 100)) (does robot c4) (true (depth level4)))
+
+(<= (next (previous_goal G)) (true (previous_goal G)) (not (does robot c1)) (not (does robot c2)) (not (does robot c3)) (not (does robot c4)))
+
+(<= terminal (true (depth level5)))
+
+(<= (goal robot 25) (true (previous_goal 25)) (true (depth level5)))
+(<= (goal robot 50) (true (previous_goal 50)) (true (depth level5)))
+(<= (goal robot 75) (true (previous_goal 75)) (true (depth level5)))
+(<= (goal robot 100) (true (previous_goal 100)) (true (depth level5)))

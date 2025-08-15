@@ -1,0 +1,123 @@
+(role xplayer)
+(role oplayer)
+
+(init (cell a blank))
+(init (cell b blank))
+(init (cell c blank))
+(init (cell d blank))
+(init (cell e blank))
+(init (cell f blank))
+(init (cell g blank))
+(init (cell h blank))
+(init (cell i blank))
+(init (control xplayer))
+
+(<= (legal ?player (mark ?pos))
+    (role ?player)
+    (true (control ?player))
+    (true (cell ?pos blank)))
+
+(<= (legal xplayer noop)
+    (true (control oplayer)))
+
+(<= (legal oplayer noop)
+    (true (control xplayer)))
+
+(<= (next (cell ?pos x))
+    (does xplayer (mark ?pos))
+    (true (cell ?pos blank)))
+
+(<= (next (cell ?pos o))
+    (does oplayer (mark ?pos))
+    (true (cell ?pos blank)))
+
+(<= (next (cell ?pos ?mark))
+    (true (cell ?pos ?mark))
+    (distinct ?mark blank)
+    (does ?player noop))
+
+(<= (next (control xplayer))
+    (true (control oplayer)))
+
+(<= (next (control oplayer))
+    (true (control xplayer)))
+
+(<= (line ?mark)
+    (true (cell a ?mark))
+    (true (cell b ?mark))
+    (true (cell c ?mark)))
+
+(<= (line ?mark)
+    (true (cell d ?mark))
+    (true (cell e ?mark))
+    (true (cell f ?mark)))
+
+(<= (line ?mark)
+    (true (cell g ?mark))
+    (true (cell h ?mark))
+    (true (cell i ?mark)))
+
+(<= (line ?mark)
+    (true (cell a ?mark))
+    (true (cell d ?mark))
+    (true (cell g ?mark)))
+
+(<= (line ?mark)
+    (true (cell b ?mark))
+    (true (cell e ?mark))
+    (true (cell h ?mark)))
+
+(<= (line ?mark)
+    (true (cell c ?mark))
+    (true (cell f ?mark))
+    (true (cell i ?mark)))
+
+(<= (line ?mark)
+    (true (cell a ?mark))
+    (true (cell e ?mark))
+    (true (cell i ?mark)))
+
+(<= (line ?mark)
+    (true (cell c ?mark))
+    (true (cell e ?mark))
+    (true (cell g ?mark)))
+
+(<= (open ?pos)
+    (true (cell ?pos blank)))
+
+(<= terminal
+    (line x))
+(<= terminal
+    (line o))
+(<= terminal
+    (not (open a))
+    (not (open b))
+    (not (open c))
+    (not (open d))
+    (not (open e))
+    (not (open f))
+    (not (open g))
+    (not (open h))
+    (not (open i)))
+
+(<= (goal xplayer 100)
+    (line x))
+
+(<= (goal oplayer 0)
+    (line x))
+
+(<= (goal xplayer 0)
+    (line o))
+
+(<= (goal oplayer 100)
+    (line o))
+
+(<= (goal xplayer 50)
+    (not (line x))
+    (not (line o))
+    terminal)
+
+(<= (goal oplayer 50)
+    (not (line x))
+    (not (line o))
+    terminal)

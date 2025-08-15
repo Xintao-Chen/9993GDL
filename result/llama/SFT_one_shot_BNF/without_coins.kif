@@ -1,0 +1,47 @@
+(role you)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+(index 5)
+(index 6)
+(index 7)
+(index 8)
+
+(init (step 1) (cell 1 1) (cell 2 1) (cell 3 1) (cell 4 1) (cell 5 1) (cell 6 1) (cell 7 1) (cell 8 1))
+
+(<= (legal you (jump?x?y))
+    (true (cell?x 1)) (true (cell?y 1)) (twoBetween?x?y))
+
+(<= (next (cell?x 0))
+    (role you) (does you (jump?x?y)))
+(<= (next (cell?y 2))
+    (role you) (does you (jump?x?y)))
+(<= (next (step?s))
+    (role you) (does you (jump?x?y)))
+(<= (next (step?s))
+    (true (step?s)))
+
+(<= (twoBetween?x?y)
+    (index?x) (index?y)
+    (and (not (=?x?y))
+         (lessThan?y?x)
+         (not (true (cell?y 2)))))
+
+(<= terminal
+    (true (step 5)))
+(<= terminal
+    (and (index?i)
+         (true (cell?i 1))))
+
+(<= (goal you 100)
+    (true (step 5)))
+(<= (goal you 0)
+    (and (index?i)
+         (true (cell?i 1))))
+
+(<= (lessThan?x?y)
+    (index?x) (index?y)
+    (and (not (=?x?y))
+         (<?x?y)))

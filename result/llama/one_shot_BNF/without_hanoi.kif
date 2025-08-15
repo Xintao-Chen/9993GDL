@@ -1,0 +1,106 @@
+(role player)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4) 
+(index 5)
+
+(pillar pillar1) 
+(pillar pillar2) 
+(pillar pillar3)
+
+(init 
+  (step s0) 
+  (on disc5 pillar1) 
+  (on disc4 disc5) 
+  (on disc3 disc4) 
+  (on disc2 disc3) 
+  (on disc1 disc2) 
+  (clear pillar2) 
+  (clear pillar3) 
+  (on disc1 pillar2) 
+  (stepNumber 0))
+
+(<= (legal player noop) 
+    (true (stepNumber 0)))
+
+(<= (legal player (move?i?j)) 
+    (true (stepNumber?i)) 
+  (clear?j) 
+  (clear?i) 
+  (smaller?i?j))
+
+(<= (next (on?i?j)) 
+    (role player) 
+    (does player (move?i?j)))
+
+(<= (next (clear?i)) 
+    (role player) 
+    (does player (move?i?j)))
+
+(<= (next (stepNumber?i)) 
+    (role player) 
+    (does player (move?i?j)))
+
+(<= (next (stepNumber?j)) 
+    (role player) 
+    (does player (move?i?j)))
+
+(<= terminal 
+    (stepNumber 31))
+
+(<= (goal player 100) 
+    (on disc1 pillar3) 
+    (on disc2 disc1) 
+    (on disc3 disc2) 
+    (on disc4 disc3) 
+    (on disc5 disc4))
+
+(<= (goal player 50) 
+    (on disc1 pillar3) 
+    (on disc2 disc1) 
+    (on disc3 disc2) 
+    (on disc4 disc3))
+
+(<= (goal player 25) 
+    (on disc1 pillar3) 
+    (on disc2 disc1) 
+    (on disc3 disc2))
+
+(<= (goal player 0) 
+    (on disc1 pillar3))
+
+(<= (on?i?j) 
+    (index?i) 
+    (index?j) 
+    (pillar?j) 
+    (smaller?i?j))
+
+(<= (on?i?j) 
+    (index?i) 
+    (index?j) 
+    (disc?i) 
+    (smaller?j?i))
+
+(<= (clear?i) 
+    (index?i) 
+    (pillar?i))
+
+(<= (clear?i) 
+    (index?i) 
+    (disc?i))
+
+(<= (smaller?i?j) 
+    (index?i) 
+    (index?j) 
+    (index?k) 
+    (on?i?k) 
+    (on?j?k))
+
+(<= (smaller?i?j) 
+    (index?i) 
+    (index?j) 
+    (index?k) 
+    (on?k?i) 
+    (on?k?j))

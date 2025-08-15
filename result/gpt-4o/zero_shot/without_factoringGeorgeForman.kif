@@ -1,0 +1,55 @@
+(role robot)
+
+(init (cell 1 1 0))
+(init (cell 1 2 0))
+(init (cell 2 1 0))
+(init (cell 2 2 0))
+(init (round 0))
+
+(<= (legal robot (press X Y))
+    (true (cell X Y Z))
+    (<= Z 4)
+    (<= X 2)
+    (<= Y 2))
+
+(<= (legal robot noop)
+    (true (round 3)))
+
+(<= (next (cell X Y 4))
+    (does robot (press X Y)))
+
+(<= (next (cell X Y Z1))
+    (true (cell X Y Z))
+    (does robot (press A B))
+    (distinct (pair X Y) (pair A B))
+    (succ Z1 Z))
+
+(<= (next (cell X Y 0))
+    (true (cell X Y 0))
+    (does robot (press A B))
+    (distinct (pair X Y) (pair A B)))
+
+(<= (next (round N1))
+    (true (round N))
+    (succ N1 N))
+
+(<= (terminal)
+    (true (round 3)))
+
+(<= (terminal)
+    (true (cell 1 1 Z1))
+    (true (cell 1 2 Z2))
+    (true (cell 2 1 Z3))
+    (true (cell 2 2 Z4))
+    (distinct Z1 0)
+    (distinct Z2 0)
+    (distinct Z3 0)
+    (distinct Z4 0))
+
+(<= (goal robot 100)
+    (terminal)) 
+
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)

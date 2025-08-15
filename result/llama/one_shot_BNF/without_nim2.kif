@@ -1,0 +1,32 @@
+(role player1)
+(role player2)
+
+(index 1)
+(index 2)
+(index a)
+(index b)
+(index c)
+(index d)
+
+(init (control player1) (count a 2) (count b 2) (count c 10) (count d 10))
+
+(<= (legal player1 noop) (true (control player2)))
+(<= (legal player2 noop) (true (control player1)))
+(<= (legal player1 (reduce?i?x)) (true (control player1)) (index?i) (less?x (count?i)))
+(<= (legal player2 (reduce?i?x)) (true (control player2)) (index?i) (less?x (count?i)))
+
+(<= (next (count?i?x)) (role?player) (does?player (reduce?i?x)) (true (count?i?x)))
+(<= (next (count?i?x)) (role?player) (does?player (reduce?i?x)) (less?x (count?i)))
+(<= (next (count?i?x)) (true (count?i?x)))
+(<= (next (control player1)) (true (control player2)))
+(<= (next (control player2)) (true (control player1)))
+
+(<= terminal (and (eq (count a 0) (count b 0)) (eq (count c 0) (count d 0))))
+
+(<= (goal player1 100) (terminal) (not (true (control player1))))
+(<= (goal player1 0) (terminal) (true (control player1)))
+(<= (goal player2 100) (terminal) (not (true (control player2))))
+(<= (goal player2 0) (terminal) (true (control player2)))
+
+(<= (less?x?y) (true (succ?y?z)) (eq?z (+?y?x)))
+(<= (less?x?y) (true (not (less?y?x))))

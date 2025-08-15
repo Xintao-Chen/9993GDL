@@ -1,0 +1,20 @@
+(role robot)
+
+(init (at h1))
+
+(legal robot a) :- (true (at h1)).
+(legal robot b) :- (true (at h1)).
+(legal robot a) :- (true (at h5)).
+(legal robot noop) :- (true (at h3)).
+(legal robot noop) :- (true (at h8)).
+
+(next (at h2)) :- (does robot a), (true (at h1)).
+(next (at h6)) :- (does robot a), (true (at h5)).
+(next (at h3)) :- (true (at h3)).
+(next (at h8)) :- (true (at h8)).
+
+(terminal) :- (true (at h3)).
+(terminal) :- (true (at h8)).
+
+(goal robot 100) :- (true (at h3)).
+(goal robot 0) :- (true (at h8)).

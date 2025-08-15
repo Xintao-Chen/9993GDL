@@ -1,0 +1,269 @@
+(role firefighter)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4) 
+(index 5)
+(index 6) 
+(index 7) 
+(index 8) 
+(index 9) 
+(index 10)
+(index 11) 
+(index 12) 
+(index 13) 
+(index 14) 
+(index 15) 
+(index 16) 
+(index 17) 
+(index 18) 
+(index 19) 
+(index 20)
+(index 21) 
+(index 22) 
+(index 23) 
+(index 24) 
+(index 25)
+(index 26) 
+(index 27) 
+(index 28) 
+(index 29) 
+(index 30)
+(index 31) 
+(index 32) 
+(index 33) 
+(index 34) 
+(index 35)
+(index 36) 
+(index 37) 
+(index 38) 
+(index 39) 
+(index 40)
+(index 41) 
+(index 42) 
+(index 43) 
+(index 44) 
+(index 45)
+(index 46) 
+(index 47) 
+(index 48) 
+(index 49) 
+(index 50)
+
+(init (step 1) (fire (1,1)) (lost (false)) (flee (false)))
+
+(<= (legal (noop firefighter)) (true (step 1)))
+
+(<= (legal (move?i?j firefighter)) 
+    (index?i) 
+    (index?j) 
+    (not (true (lost firefighter))) 
+    (not (true (fire (?i,?j)))))
+
+(<= (legal (extinguish firefighter)) 
+    (true (fire (1,1))))
+
+(<= (legal (flee firefighter)) (true (step 1)))
+
+(<= (next (step?n)) 
+    (role firefighter) 
+    (does firefighter (noop)) 
+    (role firefighter) 
+    (step?n))
+
+(<= (next (step?n)) 
+    (role firefighter) 
+    (does firefighter (move?i?j firefighter)) 
+    (role firefighter) 
+    (step?s) 
+    (index?i) 
+    (index?j) 
+    (not (true (lost firefighter))) 
+    (not (true (fire (?i,?j)))))
+
+(<= (next (step?n)) 
+    (role firefighter) 
+    (does firefighter (extinguish firefighter)) 
+    (role firefighter) 
+    (step?s) 
+    (fire (1,1)))
+
+(<= (next (step?n)) 
+    (role firefighter) 
+    (does firefighter (flee firefighter)) 
+    (role firefighter) 
+    (step?n))
+
+(<= (next (lost firefighter)) 
+    (role firefighter) 
+    (does firefighter (move?i?j firefighter)) 
+    (role firefighter) 
+    (index?i) 
+    (index?j) 
+    (true (lost firefighter)))
+
+(<= (next (lost firefighter)) 
+    (role firefighter) 
+    (does firefighter (move?i?j firefighter)) 
+    (role firefighter) 
+    (index?i) 
+    (index?j) 
+    (true (fire (?i,?j))))
+
+(<= (next (fire?i?j)) 
+    (role firefighter) 
+    (does firefighter (move?i?j firefighter)) 
+    (role firefighter) 
+    (index?i) 
+    (index?j) 
+    (true (fire (?i,?j))))
+
+(<= (next (fire (1,1))) 
+    (role firefighter) 
+    (does firefighter (extinguish firefighter)))
+
+(<= (next (flee firefighter)) 
+    (role firefighter) 
+    (does firefighter (flee firefighter)))
+
+(<= (next (step?n)) 
+    (role firefighter) 
+    (does firefighter (noop firefighter)) 
+    (role firefighter) 
+    (step?n))
+
+(<= terminal 
+    (true (step 50)))
+
+(<= terminal 
+    (true (flee firefighter)))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (not (true (lost firefighter))))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (not (true (flee firefighter))))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (not (true (fire (1,1)))))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (not (true (step 50))))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (flee firefighter) 
+    (role firefighter) 
+    (step?n) 
+    (not (true (lost firefighter))))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (flee firefighter) 
+    (role firefighter) 
+    (step?n) 
+    (not (true (fire (1,1)))))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (flee firefighter) 
+    (role firefighter) 
+    (step?n) 
+    (not (true (step 50))))
+
+(<= goal 
+    (role firefighter) 
+    (step?n) 
+    (flee firefighter) 
+    (role firefighter) 
+    (step?n) 
+    (not (true (flee firefighter))))
+
+(<= (score 100) 
+    (role firefighter) 
+    (step?n) 
+    (not (true (lost firefighter))))
+
+(<= (score 20) 
+    (role firefighter) 
+    (step?n) 
+    (flee firefighter))
+
+(<= (score 0) 
+    (role firefighter) 
+    (step?n) 
+    (true (lost firefighter)))
+
+(<= (score?s) 
+    (role firefighter) 
+    (step?n) 
+    (flee firefighter) 
+    (score?s))
+
+(<= (move?i?j firefighter) 
+    (role firefighter) 
+    (does firefighter (move?i?j firefighter)))
+
+(<= (extinguish firefighter) 
+    (role firefighter) 
+    (does firefighter (extinguish firefighter)))
+
+(<= (flee firefighter) 
+    (role firefighter) 
+    (does firefighter (flee firefighter)))
+
+(<= (noop firefighter) 
+    (role firefighter) 
+    (does firefighter (noop firefighter)))
+
+(<= (lost firefighter) 
+    (role firefighter) 
+    (lost firefighter))
+
+(<= (fire?i?j) 
+    (role firefighter) 
+    (fire?i?j))
+
+(<= (step?n) 
+    (role firefighter) 
+    (step?n))
+
+(<= (flee firefighter) 
+    (role firefighter) 
+    (flee firefighter))
+
+(<= (step?n) 
+    (role firefighter) 
+    (step?n))
+
+(<= (lost firefighter) 
+    (role firefighter) 
+    (lost firefighter))
+
+(<= (fire (1,1)) 
+    (role firefighter) 
+    (fire (1,1)))
+
+(<= (step?n) 
+    (role firefighter) 
+    (step?n))
+
+(<= (flee firefighter) 
+    (role firefighter) 
+    (flee firefighter))
+
+(<= (noop firefighter) 
+    (role firefighter) 
+    (noop firefighter))

@@ -1,0 +1,120 @@
+(role lifter)
+(role parker)
+
+(init (on d b))
+(init (on b g))
+(init (on f c))
+(init (on c e))
+(init (on-table d))
+(init (on-table f))
+(init (on-table a))
+(init (clear d))
+(init (clear f))
+(init (clear a))
+(init (clear g))
+(init (clear e))
+(init (step 1))
+(init (not (lifted)))
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+(succ 8 9)
+(succ 9 10)
+(succ 10 11)
+(succ 11 12)
+(succ 12 13)
+(succ 13 14)
+(succ 14 15)
+(succ 15 16)
+(succ 16 17)
+(succ 17 18)
+(succ 18 19)
+
+(<= (legal lifter (lift ?b))
+    (true (clear ?b))
+    (not (true (lifted)))
+    (not (true (on-table ?b))))
+
+(<= (legal lifter noop)
+    (true (lifted)))
+
+(<= (legal parker (put ?b ?c))
+    (true (lifted ?b))
+    (true (clear ?c))
+    (distinct ?b ?c))
+
+(<= (legal parker noop)
+    (not (true (lifted))))
+
+(<= (next (on ?b ?c))
+    (does parker (put ?b ?c)))
+
+(<= (next (clear ?b))
+    (does lifter (lift ?b)))
+
+(<= (next (clear ?c))
+    (does parker (put ?b ?c))
+    (true (clear ?c)))
+
+(<= (next (lifted ?b))
+    (does lifter (lift ?b)))
+
+(<= (next (not (lifted)))
+    (does parker (put ?b ?c)))
+
+(<= (next (step ?n))
+    (true (step ?m))
+    (succ ?m ?n))
+
+(<= (tower1)
+    (true (on a b))
+    (true (on b c))
+    (true (on c d)))
+
+(<= (tower2)
+    (true (on e f))
+    (true (on f g))
+    (true (on g h)))
+
+(<= (goal lifter 100)
+    (tower1)
+    (tower2))
+
+(<= (goal parker 100)
+    (tower1)
+    (tower2))
+
+(<= (goal lifter 75)
+    (tower2)
+    (not (tower1)))
+
+(<= (goal parker 75)
+    (tower2)
+    (not (tower1)))
+
+(<= (goal lifter 25)
+    (tower1)
+    (not (tower2)))
+
+(<= (goal parker 25)
+    (tower1)
+    (not (tower2)))
+
+(<= (goal lifter 0)
+    (not (tower1))
+    (not (tower2)))
+
+(<= (goal parker 0)
+    (not (tower1))
+    (not (tower2)))
+
+(<= terminal
+    (tower2))
+
+(<= terminal
+    (true (step 19)))

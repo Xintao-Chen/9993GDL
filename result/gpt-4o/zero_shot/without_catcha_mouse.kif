@@ -1,0 +1,76 @@
+(role mouse)
+(role catcher)
+
+(init (control catcher))
+(init (mouse (7 1)))
+(init (turns 0))
+
+(<= (hole ?x ?y) (or (and (= ?x 1) (= ?y 1)) (and (= ?x 9) (= ?y h))))
+(<= (trap ?x ?y) false)
+
+(<= (legal mouse (move ?x ?y))
+    (true (control mouse))
+    (true (mouse ?mx ?my))
+    (adjacent ?mx ?my ?x ?y)
+    (not (occupied ?x ?y))
+    (not (hole ?x ?y))
+    (not (trap ?x ?y)))
+
+(<= (legal catcher (lay_trap ?x ?y))
+    (true (control catcher))
+    (not (occupied ?x ?y))
+    (not (hole ?x ?y)))
+
+(<= (legal mouse noop) (true (control catcher)))
+(<= (legal catcher noop) (true (control mouse)))
+
+(<= (next (mouse ?x ?y))
+    (does mouse (move ?x ?y)))
+
+(<= (next (trap ?x ?y))
+    (does catcher (lay_trap ?x ?y)))
+
+(<= (next (control mouse))
+    (true (control catcher)))
+
+(<= (next (control catcher))
+    (true (control mouse)))
+
+(<= (next (turns ?t1))
+    (true (turns ?t))
+    (succ ?t ?t1))
+
+(<= (occupied ?x ?y)
+    (or (true (mouse ?x ?y))
+        (true (trap ?x ?y))))
+
+(<= (adjacent ?x1 ?y1 ?x2 ?y2)
+    (or (and (= ?x2 ?x1) (succ ?y1 ?y2))
+        (and (= ?x2 ?x1) (succ ?y2 ?y1))
+        (and (succ ?x1 ?x2) (= ?y2 ?y1))
+        (and (succ ?x2 ?x1) (= ?y2 ?y1))))
+
+(<= (terminal)
+    (or (mouse_caught)
+        (mouse_escaped)
+        (true (turns 20))))
+
+(<= (mouse_caught)
+    (true (mouse ?x ?y))
+    (true (trap ?x ?y)))
+
+(<= (mouse_escaped)
+    (true (mouse ?x ?y))
+    (hole ?x ?y))
+
+(<= (goal mouse 100) (mouse_escaped))
+(<= (goal catcher 0) (mouse_escaped))
+(<= (goal catcher 100) (mouse_caught))
+(<= (goal mouse 0) (mouse_caught))
+(<= (goal mouse 50) (true (turns 20)) (not (mouse_caught)) (not (mouse_escaped)))
+(<= (goal catcher 50) (true (turns 20)) (not (mouse_caught)) (not (mouse_escaped)))
+
+(succ 0 1) (succ 1 2) (succ 2 3) (succ 3 4) (succ 4 5)
+(succ 5 6) (succ 6 7) (succ 7 8) (succ 8 9) (succ 9 10)
+(succ 10 11) (succ 11 12) (succ 12 13) (succ 13 14) (succ 14 15)
+(succ 15 16) (succ 16 17) (succ 17 18) (succ 18 19) (succ 19 20)

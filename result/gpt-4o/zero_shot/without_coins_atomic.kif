@@ -1,0 +1,75 @@
+(role you)
+
+(init (cell 1 1))
+(init (cell 2 1))
+(init (cell 3 1))
+(init (cell 4 1))
+(init (cell 5 1))
+(init (cell 6 1))
+(init (cell 7 1))
+(init (cell 8 1))
+(init (step 1))
+
+(<= (legal you noop) (not (legal_jump)))
+
+(<= (legal you (jump ?x ?y))
+    (true (cell ?x 1))
+    (true (cell ?y 1))
+    (or (and (true (cell ?a 1)) (true (cell ?b 1)) (adjacent ?x ?a) (adjacent ?a ?b) (adjacent ?b ?y))
+        (and (true (cell ?a 1)) (true (cell ?b 1)) (adjacent ?y ?a) (adjacent ?a ?b) (adjacent ?b ?x)))
+    (distinct ?x ?y))
+
+(<= (legal_jump)
+    (legal you (jump ?x ?y)))
+
+(<= (next (cell ?x 0))
+    (does you (jump ?x ?y)))
+
+(<= (next (cell ?y 2))
+    (does you (jump ?x ?y)))
+
+(<= (next (cell ?z ?c))
+    (does you (jump ?x ?y))
+    (true (cell ?z ?c))
+    (distinct ?z ?x)
+    (distinct ?z ?y))
+
+(<= (next (cell ?z ?c))
+    (does you noop)
+    (true (cell ?z ?c)))
+
+(<= (next (step ?n))
+    (true (step ?m))
+    (does you (jump ?x ?y))
+    (succ ?m ?n))
+
+(<= (next (step ?m))
+    (does you noop)
+    (true (step ?m)))
+
+(<= (terminal)
+    (not (legal_jump)))
+
+(<= (goal you 100)
+    (true (step 5))
+    (not (exists (?x) (true (cell ?x 1)))))
+
+(<= (goal you 0)
+    (or (not (true (step 5)))
+        (exists (?x) (true (cell ?x 1)))))
+
+(adjacent 1 2)
+(adjacent 2 3)
+(adjacent 3 4)
+(adjacent 4 5)
+(adjacent 5 6)
+(adjacent 6 7)
+(adjacent 7 8)
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)

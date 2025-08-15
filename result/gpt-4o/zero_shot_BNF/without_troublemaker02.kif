@@ -1,0 +1,60 @@
+(role player)
+(init (pos1 a))
+(init (pos2 x))
+(graph1 a b1)
+(graph1 b1 b2)
+(graph1 b2 c)
+(graph2 x y1)
+(graph2 y1 y2)
+(graph2 y2 z)
+
+(<= (legal player move1 ?dest)
+    (true (pos1 ?pos))
+    (graph1 ?pos ?dest))
+
+(<= (legal player move2 ?dest)
+    (true (pos2 ?pos))
+    (graph2 ?pos ?dest))
+
+(<= (legal player noop)
+    (not (legal player move1 ?dest))
+    (not (legal player move2 ?dest)))
+
+(<= (next (pos1 ?dest))
+    (does player move1 ?dest))
+
+(<= (next (pos1 ?pos))
+    (true (pos1 ?pos))
+    (does player noop))
+
+(<= (next (pos2 ?dest))
+    (does player move2 ?dest))
+
+(<= (next (pos2 ?pos))
+    (true (pos2 ?pos))
+    (does player noop))
+
+(<= terminal
+    (true (pos1 c))
+    (true (pos2 z)))
+
+(<= terminal
+    (true (pos1 a))
+    (true (pos2 z)))
+
+(<= terminal
+    (true (pos1 c))
+    (true (pos2 x)))
+
+(<= terminal
+    (true (pos1 b1))
+    (true (pos2 y1)))
+
+(<= (goal player 100)
+    (true (pos1 c))
+    (true (pos2 z)))
+
+(<= (goal player 0)
+    terminal
+    (not (true (pos1 c)))
+    (not (true (pos2 z))))

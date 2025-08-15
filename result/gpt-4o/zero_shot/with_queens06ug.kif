@@ -1,0 +1,67 @@
+(role robot)
+
+(init (cell 1 1 blank))
+(init (cell 1 2 blank))
+(init (cell 1 3 blank))
+(init (cell 1 4 blank))
+(init (cell 2 1 blank))
+(init (cell 2 2 blank))
+(init (cell 2 3 blank))
+(init (cell 2 4 blank))
+(init (cell 3 1 blank))
+(init (cell 3 2 blank))
+(init (cell 3 3 blank))
+(init (cell 3 4 blank))
+(init (cell 4 1 blank))
+(init (cell 4 2 blank))
+(init (cell 4 3 blank))
+(init (cell 4 4 blank))
+(init (queens 0))
+
+(<= (legal robot (place R C))
+    (true (cell R C blank))
+    (not (attacked R C)))
+
+(<= (attacked R C)
+    (true (cell R2 C queen))
+    (distinct R R2))
+(<= (attacked R C)
+    (true (cell R C2 queen))
+    (distinct C C2))
+(<= (attacked R C)
+    (true (cell R2 C2 queen))
+    (diagonal R C R2 C2))
+
+(<= (diagonal R C R2 C2)
+    (or (and (< R R2) (< C C2) (= (- R2 R) (- C2 C)))
+        (and (< R R2) (> C C2) (= (- R2 R) (- C C2)))
+        (and (> R R2) (< C C2) (= (- R R2) (- C2 C)))
+        (and (> R R2) (> C C2) (= (- R R2) (- C C2)))))
+
+(<= (next (cell R C queen))
+    (does robot (place R C)))
+
+(<= (next (cell R C blank))
+    (true (cell R C blank))
+    (not (does robot (place R C))))
+
+(<= (next (queens N1))
+    (true (queens N))
+    (does robot (place R C))
+    (succ N N1))
+
+(<= terminal
+    (true (queens 4)))
+
+(<= (goal robot 100)
+    (true (queens 4))
+    (not (exists (R C) (attacked R C))))
+
+(<= (goal robot 0)
+    (true (queens 4))
+    (exists (R C) (attacked R C)))
+
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)

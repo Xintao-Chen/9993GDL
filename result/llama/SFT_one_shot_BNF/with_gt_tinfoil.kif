@@ -1,0 +1,93 @@
+(role flipper)
+(role caller)
+
+(init (score flipper 0) (score caller 0) (step 0))
+
+(<= (legal flipper (call heads))
+    (role flipper))
+(<= (legal flipper (call tails))
+    (role flipper))
+(<= (legal flipper (call neither))
+    (role flipper))
+(<= (legal caller (call heads))
+    (role caller))
+(<= (legal caller (call tails))
+    (role caller))
+(<= (legal caller (call neither))
+    (role caller))
+
+(<= (next (score flipper NewScore) (score caller NewScore) (step NewStep))
+    (role?player)
+    (does?player (call?option))
+    (if (eq?option heads) then
+      (if (eq?option (call caller)) then
+        (NewScore 10) (NewScoreCaller 0) (NewStep (plus (step) 1))
+      else
+        (NewScore 0) (NewScoreCaller 10) (NewStep (plus (step) 1)))
+    elseif (eq?option tails) then
+      (if (eq?option (call caller)) then
+        (NewScore 0) (NewScoreCaller 10) (NewStep (plus (step) 1))
+      else
+        (NewScore 10) (NewScoreCaller 0) (NewStep (plus (step) 1)))
+    elseif (eq?option neither) then
+      (if (eq?option (call caller)) then
+        (NewScore 1) (NewScoreCaller 1) (NewStep (plus (step) 1))
+      else
+        (NewScore 9) (NewScoreCaller 1) (NewStep (plus (step) 1)))))
+(<= (next (score flipper NewScore) (score caller NewScore) (step NewStep))
+    (role?player)
+    (does?player (noop))
+    (NewScore (score?player)) (NewScoreCaller (score (if (eq?player flipper) then caller else flipper))) (NewStep (plus (step) 1)))
+
+(<= terminal
+    (plus (step) 10))
+
+(<= (goal?player Points)
+    (role?player)
+    (if (eq?player flipper) then
+      (gt (score flipper) (score caller))
+    else
+      (lt (score flipper) (score caller)))
+    (eq (plus (score?player) Points) (score?player)))
+
+(<= (goal flipper 10)
+    (eq (score flipper) (score caller)))
+(<= (goal caller 10)
+    (eq (score flipper) (score caller)))
+(<= (goal flipper 9)
+    (gt (score flipper) (score caller)))
+(<= (goal caller 9)
+    (lt (score flipper) (score caller)))
+(<= (goal flipper 1)
+    (eq (score flipper) (score caller))
+    (eq (call flipper) (call caller)))
+(<= (goal caller 1)
+    (eq (score flipper) (score caller))
+    (eq (call flipper) (call caller)))
+(<= (goal flipper 0)
+    (eq (score flipper) (score caller))
+    (neq (call flipper) (call caller)))
+(<= (goal caller 0)
+    (eq (score flipper) (score caller))
+    (neq (call flipper) (call caller)))
+
+(<= (call?player?option)
+    (role?player)
+    (if (eq?option heads) then
+      (true (call caller heads))
+    elseif (eq?option tails) then
+      (true (call caller tails))
+    elseif (eq?option neither) then
+      (true (call caller neither))))
+(<= (call?player?option)
+    (role?player)
+    (if (eq?option heads) then
+      (true (call caller heads))
+    elseif (eq?option tails) then
+      (true (call caller tails))
+    elseif (eq?option neither) then
+      (true (call caller neither))))
+
+(<= (noop)
+    (true (call flipper neither))
+    (true (call caller neither)))

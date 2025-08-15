@@ -1,0 +1,48 @@
+(role robot)
+
+(init (light p off))
+(init (light q off))
+(init (light r off))
+(init (step 1))
+
+(<= (legal robot a) true)
+(<= (legal robot b) true)
+(<= (legal robot c) true)
+
+(<= (next (light p on)) (does robot a) (true (light p off)))
+(<= (next (light p off)) (does robot a) (true (light p on)))
+(<= (next (light q on)) (does robot a) (true (light q off)))
+(<= (next (light q off)) (does robot a) (true (light q on)))
+(<= (next (light r on)) (does robot a) (true (light r off)))
+(<= (next (light r off)) (does robot a) (true (light r on)))
+
+(<= (next (light p on)) (does robot b) (true (light q on)))
+(<= (next (light p off)) (does robot b) (true (light q off)))
+(<= (next (light q on)) (does robot b) (true (light p on)))
+(<= (next (light q off)) (does robot b) (true (light p off)))
+(<= (next (light r on)) (does robot b) (true (light r on)))
+(<= (next (light r off)) (does robot b) (true (light r off)))
+
+(<= (next (light q on)) (does robot c) (true (light r on)))
+(<= (next (light q off)) (does robot c) (true (light r off)))
+(<= (next (light r on)) (does robot c) (true (light q on)))
+(<= (next (light r off)) (does robot c) (true (light q off)))
+(<= (next (light p on)) (does robot c) (true (light p on)))
+(<= (next (light p off)) (does robot c) (true (light p off)))
+
+(<= (next (step ?n)) (true (step ?m)) (succ ?m ?n))
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+
+(<= terminal (true (step 7)))
+(<= terminal (true (light p on)) (true (light q on)) (true (light r on)))
+
+(<= (goal robot 100) (true (light p on)) (true (light q on)) (true (light r on)))
+(<= (goal robot 0) (not (true (light p on))) (true (step 7)))
+(<= (goal robot 0) (not (true (light q on))) (true (step 7)))
+(<= (goal robot 0) (not (true (light r on))) (true (step 7)))

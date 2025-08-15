@@ -1,0 +1,78 @@
+(role crosser)
+(role blocker)
+
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+
+(init (control crosser))
+(<= (init (cell ?x ?y b))
+    (index ?x)
+    (index ?y))
+
+(<= (legal crosser noop)
+    (true (control blocker)))
+(<= (legal crosser (mark ?x ?y))
+    (true (control crosser))
+    (emptyCell ?x ?y))
+(<= (legal blocker noop)
+    (true (control crosser)))
+(<= (legal blocker (mark ?x ?y))
+    (true (control blocker))
+    (emptyCell ?x ?y))
+
+(<= (next (cell ?x ?y c))
+    (does crosser (mark ?x ?y))
+    (emptyCell ?x ?y))
+(<= (next (cell ?x ?y b))
+    (does blocker (mark ?x ?y)))
+(<= (next (cell ?x ?y ?mark))
+    (true (cell ?x ?y ?mark))
+    (not (does crosser (mark ?x ?y)))
+    (not (does blocker (mark ?x ?y))))
+(<= (next (control crosser))
+    (true (control blocker)))
+(<= (next (control blocker))
+    (true (control crosser)))
+
+(<= terminal
+    (path))
+(<= terminal
+    (not open))
+
+(<= (goal crosser 100)
+    (path))
+(<= (goal crosser 0)
+    (not (path))
+    (not open))
+(<= (goal blocker 100)
+    (not (path))
+    (not open))
+(<= (goal blocker 0)
+    (path))
+
+(<= (path)
+    (index ?y)
+    (connected 1 ?y))
+
+(<= (connected 4 ?y)
+    (true (cell 4 ?y c)))
+(<= (connected ?x ?y)
+    (index ?x)
+    (index ?y)
+    (true (cell ?x ?y c))
+    (succ ?x ?x1)
+    (connected ?x1 ?y))
+
+(<= (emptyCell ?x ?y)
+    (index ?x)
+    (index ?y)
+    (true (cell ?x ?y b)))
+
+(<= open
+    (emptyCell ?x ?y))
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)

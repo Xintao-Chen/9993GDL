@@ -1,0 +1,89 @@
+(role robot)
+
+(init (at robot a))
+(init (at gold c))
+(init (step 1))
+(init (holding robot none))
+
+(adjacent a b)
+(adjacent b c)
+(adjacent c d)
+(adjacent d a)
+(adjacent b a)
+(adjacent c b)
+(adjacent d c)
+(adjacent a d)
+
+(<= (legal robot move(X)) 
+    (true (at robot Y)) 
+    (adjacent Y X))
+
+(<= (legal robot grab) 
+    (true (at robot X)) 
+    (true (at gold X)) 
+    (true (holding robot none)))
+
+(<= (legal robot drop) 
+    (true (holding robot gold)))
+
+(<= (legal robot noop) 
+    (not (legal robot move(_))) 
+    (not (legal robot grab)) 
+    (not (legal robot drop)))
+
+(<= (next (at robot X)) 
+    (does robot move(X)))
+
+(<= (next (at robot X)) 
+    (true (at robot X)) 
+    (not (does robot move(_))))
+
+(<= (next (at gold X)) 
+    (does robot grab) 
+    (true (at robot X)))
+
+(<= (next (at gold X)) 
+    (does robot drop) 
+    (true (at robot X)))
+
+(<= (next (at gold X)) 
+    (true (at gold X)) 
+    (not (does robot grab)) 
+    (not (does robot drop)))
+
+(<= (next (holding robot gold)) 
+    (does robot grab))
+
+(<= (next (holding robot none)) 
+    (does robot drop))
+
+(<= (next (holding robot none)) 
+    (true (holding robot none)) 
+    (not (does robot grab)))
+
+(<= (next (step N2)) 
+    (true (step N1)) 
+    (succ N1 N2))
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+(succ 8 9)
+(succ 9 10)
+
+(<= terminal 
+    (true (step 10)))
+
+(<= terminal 
+    (true (at gold a)))
+
+(<= (goal robot 100) 
+    (true (at gold a)))
+
+(<= (goal robot 0) 
+    (true (step 10))
+    (not (true (at gold a))))

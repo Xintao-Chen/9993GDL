@@ -1,0 +1,81 @@
+(role player)
+
+(index 1)
+(index 2)
+(index 3)
+
+(succ 1 2)
+(succ 2 3)
+
+(init (stepCount 0))
+(init (cell 1 1 8))
+(init (cell 1 2 7))
+(init (cell 1 3 6))
+(init (cell 2 1 5))
+(init (cell 2 2 4))
+(init (cell 2 3 3))
+(init (cell 3 1 2))
+(init (cell 3 2 1))
+(init (cell 3 3 b))
+
+(<= (legal player (move ?x1 ?y1 ?x2 ?y2))
+    (true (cell ?x1 ?y1 b))
+    (true (cell ?x2 ?y2 ?tile))
+    (adjacent ?x1 ?y1 ?x2 ?y2))
+
+(<= (adjacent ?x1 ?y1 ?x2 ?y2)
+    (index ?x1)
+    (index ?y1)
+    (index ?x2)
+    (index ?y2)
+    (or (and (succ ?x1 ?x2) (true (cell ?x2 ?y2 ?tile)))
+        (and (succ ?x2 ?x1) (true (cell ?x2 ?y2 ?tile)))
+        (and (succ ?y1 ?y2) (true (cell ?x2 ?y2 ?tile)))
+        (and (succ ?y2 ?y1) (true (cell ?x2 ?y2 ?tile)))))
+
+(<= (next (cell ?x ?y ?tile))
+    (does player (move ?x ?y ?nx ?ny))
+    (true (cell ?nx ?ny ?tile)))
+
+(<= (next (cell ?x ?y b))
+    (does player (move ?nx ?ny ?x ?y))
+    (true (cell ?nx ?ny b)))
+
+(<= (next (cell ?x ?y ?tile))
+    (true (cell ?x ?y ?tile))
+    (not (does player (move ?x ?y ?nx ?ny)))
+    (not (does player (move ?nx ?ny ?x ?y))))
+
+(<= (next (stepCount ?nextStep))
+    (true (stepCount ?currentStep))
+    (succ ?currentStep ?nextStep))
+
+(<= terminal
+    (true (stepCount 60)))
+(<= terminal
+    (ordered))
+
+(<= (ordered)
+    (true (cell 1 1 1))
+    (true (cell 1 2 2))
+    (true (cell 1 3 3))
+    (true (cell 2 1 4))
+    (true (cell 2 2 5))
+    (true (cell 2 3 6))
+    (true (cell 3 1 7))
+    (true (cell 3 2 8))
+    (true (cell 3 3 b)))
+
+(<= (goal player 100)
+    (ordered)
+    (true (stepCount ?steps))
+    (<= ?steps 30))
+
+(<= (goal player 99)
+    (ordered)
+    (true (stepCount ?steps))
+    (> ?steps 30))
+
+(<= (goal player 0)
+    (not (ordered))
+    (true (stepCount 60)))

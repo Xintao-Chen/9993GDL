@@ -1,0 +1,50 @@
+(role robot)
+(init (state s1))
+
+(<= (legal robot a)
+    (true (state s1)))
+(<= (legal robot b)
+    (true (state s1)))
+(<= (legal robot c)
+    (true (state s1)))
+(<= (legal robot d)
+    (true (state s1)))
+(<= (legal robot e)
+    (true (state s1)))
+(<= (legal robot f)
+    (true (state s1)))
+(<= (legal robot g)
+    (true (state s7)))
+
+(<= (next (state s2))
+    (does robot a))
+(<= (next (state s3))
+    (does robot b))
+(<= (next (state s4))
+    (does robot c))
+(<= (next (state s5))
+    (does robot d))
+(<= (next (state s6))
+    (does robot e))
+(<= (next (state s7))
+    (does robot f))
+(<= (next (state s8))
+    (does robot g))
+
+(<= terminal
+    (true (state s2)))
+(<= terminal
+    (true (state s3)))
+(<= terminal
+    (true (state s4)))
+(<= terminal
+    (true (state s5)))
+(<= terminal
+    (true (state s6)))
+(<= terminal
+    (true (state s8)))
+
+(<= (goal robot 100)
+    (true (state s8)))
+(<= (goal robot 0)
+    (not (true (state s8))))

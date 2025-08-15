@@ -1,0 +1,98 @@
+(role white)
+(role black)
+
+(init (at c a))
+(init (clear b))
+(init (clear c))
+(init (table a))
+(init (table b))
+(init (step 1))
+
+(adjacent a b)
+(adjacent b c)
+(adjacent c d)
+(adjacent d a)
+
+(<= (legal white (s ?src ?dest))
+    (distinct ?src ?dest)
+    (clear ?src)
+    (table ?src)
+    (clear ?dest)
+    (adjacent ?src ?dest))
+
+(<= (legal white (u ?src ?dest))
+    (distinct ?src ?dest)
+    (clear ?src)
+    (table ?src)
+    (clear ?dest)
+    (adjacent ?src ?dest))
+
+(<= (legal black (move ?src ?dest))
+    (adjacent ?src ?dest))
+
+(<= (legal black (grab ?loc))
+    (at gold ?loc))
+
+(<= (legal black (drop ?loc))
+    (holding gold))
+
+(<= (next (at ?obj ?dest))
+    (does white (s ?src ?dest))
+    (at ?obj ?src)
+    (clear ?dest))
+
+(<= (next (at ?obj ?dest))
+    (does white (u ?src ?dest))
+    (at ?obj ?src)
+    (clear ?dest))
+
+(<= (next (clear ?src))
+    (does white (s ?src ?dest))
+    (at ?obj ?src))
+
+(<= (next (clear ?src))
+    (does white (u ?src ?dest))
+    (at ?obj ?src))
+
+(<= (next (at gold ?dest))
+    (does black (move ?src ?dest))
+    (at gold ?src))
+
+(<= (next (at gold ?dest))
+    (does black (drop ?dest))
+    (holding gold))
+
+(<= (next (holding gold))
+    (does black (grab ?loc))
+    (at gold ?loc))
+
+(<= (next (step ?n))
+    (true (step ?m))
+    (succ ?m ?n))
+
+(succ 1 2)
+
+(<= terminal
+    (true (step 2)))
+
+(<= terminal
+    (at c a)
+    (at c b)
+    (at c c)
+    (at gold a))
+
+(<= (goal white 100)
+    (at c a)
+    (at c b)
+    (at c c))
+
+(<= (goal black 100)
+    (at gold a))
+
+(<= (goal white 0)
+    (not (at c a))
+    (not (at c b))
+    (not (at c c)))
+
+(<= (goal black 0)
+    (not (at gold a)))

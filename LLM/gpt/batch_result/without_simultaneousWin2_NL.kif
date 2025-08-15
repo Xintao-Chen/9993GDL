@@ -1,0 +1,82 @@
+(role robot)
+(index 1)
+(index 2)
+(index 3)
+(index 4)
+
+(init (cell 1 1 0))
+(init (cell 1 2 0))
+(init (cell 1 3 0))
+(init (cell 1 4 0))
+(init (cell 2 1 0))
+(init (cell 2 2 0))
+(init (cell 2 3 0))
+(init (cell 2 4 0))
+(init (cell 3 1 0))
+(init (cell 3 2 0))
+(init (cell 3 3 0))
+(init (cell 3 4 0))
+(init (cell 4 1 0))
+(init (cell 4 2 0))
+(init (cell 4 3 0))
+(init (cell 4 4 0))
+
+(<= (legal robot (press ?x1 ?y1 ?x2 ?y2))
+    (index ?x1)
+    (index ?y1)
+    (index ?x2)
+    (index ?y2))
+
+(<= (next (cell ?x ?y 4))
+    (does robot (press ?x ?y ?x2 ?y2)))
+(<= (next (cell ?x ?y 3))
+    (true (cell ?x ?y 4)))
+(<= (next (cell ?x ?y 2))
+    (true (cell ?x ?y 3)))
+(<= (next (cell ?x ?y 1))
+    (true (cell ?x ?y 2)))
+(<= (next (cell ?x ?y 0))
+    (true (cell ?x ?y 1)))
+(<= (next (cell ?x ?y ?v))
+    (true (cell ?x ?y ?v))
+    (distinct ?v 4)
+    (distinct ?v 3)
+    (distinct ?v 2)
+    (distinct ?v 1))
+
+(<= terminal
+    lightson12)
+(<= terminal
+    lightson13)
+(<= terminal
+    lightson14)
+(<= terminal
+    lightson23)
+(<= terminal
+    lightson24)
+(<= terminal
+    lightson34)
+
+(<= (goal robot 100)
+    terminal)
+(<= (goal robot 0)
+    (not terminal))
+
+(<= lightson12
+    (true (cell 1 1 4))
+    (true (cell 1 2 4)))
+(<= lightson13
+    (true (cell 1 1 4))
+    (true (cell 1 3 4)))
+(<= lightson14
+    (true (cell 1 1 4))
+    (true (cell 1 4 4)))
+(<= lightson23
+    (true (cell 2 1 4))
+    (true (cell 2 3 4)))
+(<= lightson24
+    (true (cell 2 1 4))
+    (true (cell 2 4 4)))
+(<= lightson34
+    (true (cell 3 1 4))
+    (true (cell 3 4 4)))

@@ -1,0 +1,62 @@
+(role robot)
+(init (on c a))
+(init (clear b))
+(init (clear c))
+(init (on-table a))
+(init (on-table b))
+(init (step 1))
+
+(<= (legal robot (stack ?x ?y))
+    (true (clear ?x))
+    (true (clear ?y))
+    (distinct ?x ?y)
+    (or (true (on-table ?x))
+        (exists (?z) (true (on ?x ?z)))))
+
+(<= (legal robot (unstack ?x ?y))
+    (true (on ?x ?y))
+    (true (clear ?x)))
+
+(<= (next (on ?x ?y))
+    (does robot (stack ?x ?y)))
+
+(<= (next (on ?x ?y))
+    (true (on ?x ?y))
+    (not (does robot (unstack ?x ?y))))
+
+(<= (next (clear ?x))
+    (does robot (unstack ?z ?x)))
+
+(<= (next (clear ?x))
+    (true (clear ?x))
+    (not (does robot (stack ?x ?y))))
+
+(<= (next (on-table ?x))
+    (does robot (unstack ?x ?y)))
+
+(<= (next (on-table ?x))
+    (true (on-table ?x))
+    (not (does robot (stack ?x ?y))))
+
+(<= (next (step ?next))
+    (true (step ?current))
+    (succ ?current ?next))
+
+(<= (terminal)
+    (true (step 4)))
+
+(<= (terminal)
+    (true (on a b))
+    (true (on b c)))
+
+(<= (goal robot 100)
+    (true (on a b))
+    (true (on b c)))
+
+(<= (goal robot 0)
+    (not (true (on a b)))
+    (not (true (on b c))))
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)

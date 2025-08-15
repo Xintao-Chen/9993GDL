@@ -1,0 +1,91 @@
+(role robot)
+
+(index a) 
+(index b) 
+(index c) 
+(index d)
+(index i)
+
+(init (step 1) (at robot a) (atGold c))
+
+(<= (legal robot noop)
+    (true (step 10)))
+
+(<= (legal robot (move?x))
+    (role robot)
+    (adjacent?x (at robot)))
+
+(<= (legal robot (grab?x))
+    (role robot)
+    (atGold?x))
+
+(<= (legal robot (drop?x))
+    (role robot)
+    (atGold i))
+
+(<= (next (step?s))
+    (role robot)
+    (does robot (move?x))
+    (<=?s1?s)
+    (<=?s1 1))
+
+(<= (next (step?s))
+    (role robot)
+    (does robot (grab?x))
+    (<=?s1?s)
+    (<=?s1 1))
+
+(<= (next (step?s))
+    (role robot)
+    (does robot (drop?x))
+    (<=?s1?s)
+    (<=?s1 1))
+
+(<= (next (at robot?x))
+    (role robot)
+    (does robot (move?x))
+    (<=?x1?x)
+    (adjacent?x1 (at robot)))
+
+(<= (next (at robot?x))
+    (role robot)
+    (does robot (grab?x))
+    (<=?x1?x)
+    (atGold?x1))
+
+(<= (next (at robot?x))
+    (role robot)
+    (does robot (drop?x))
+    (<=?x1?x))
+
+(<= (next (atGold?x))
+    (role robot)
+    (does robot (grab?x))
+    (<=?x1?x))
+
+(<= (next (atGold?x))
+    (role robot)
+    (does robot (drop?x))
+    (<=?x1 i)
+    (<=?x2?x)
+    (<=?x2 i))
+
+(<= terminal
+    (true (step 10))
+    (not (atGold a)))
+
+(<= terminal
+    (atGold a))
+
+(<= (goal robot 100)
+    (atGold a))
+
+(<= (goal robot 0)
+    (not (atGold a)))
+
+(adjacent a b)
+(adjacent a d)
+(adjacent b c)
+(adjacent c d)
+(adjacent d a)
+(adjacent c a)

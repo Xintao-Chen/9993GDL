@@ -1,0 +1,62 @@
+(role player)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4) 
+(index 5)
+
+(indexX 1) 
+(indexX 2) 
+(indexX 3) 
+(indexX 4) 
+(indexX 5)
+
+(indexY 1) 
+(indexY 2) 
+(indexY 3) 
+(indexY 4) 
+(indexY 5)
+
+(init (step 0) (light?x?y (false)))
+
+(<= (legal player (switch?x?y))
+    (true (step?s))
+    (true (and (>=?x 1) (<=?x 5) (>=?y 1) (<=?y 5)))
+    (true (not (light?x?y (true)))))
+
+(<= (next (light?x?y (true)))
+    (role player)
+    (does player (switch?x?y)))
+(<= (next (light?x?y (true)))
+    (true (light?x?y (false))))
+(<= (next (light?x?y (false)))
+    (role player)
+    (does player (switch?x?y)))
+(<= (next (light?x?y (false)))
+    (true (light?x?y (true))))
+
+(<= (next (step?s))
+    (role player)
+    (does player noop))
+(<= (next (step?s1))
+    (role player)
+    (does player (switch?x?y))
+    (true (step?s)))
+
+(<= terminal
+    (true (>=?s 20)))
+(<= terminal
+    (true (forall?x?y (not (light?x?y (true))))))
+
+(<= (goal player 100)
+    (true (not (forall?x?y (not (light?x?y (true)))))))
+(<= (goal player 0)
+    (true (forall?x?y (not (light?x?y (true))))))
+
+(<= (adjacent?x?y?x1?y1)
+    (true (or (eq?x?x1) (eq?x?x1-1) (eq?x?x1+1)
+              (eq?y?y1) (eq?y?y1-1) (eq?y?y1+1))))
+
+(<= (switch?x?y)
+    (true (forall?x1?y1 (if (adjacent?x?y?x1?y1) (not (light?x1?y1 (light?x?y)))))))

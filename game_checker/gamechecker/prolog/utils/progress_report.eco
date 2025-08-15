@@ -1,0 +1,8 @@
+:-(module(progress_report,[/(progress_report,3)],eclipse_language)).
+:-(ensure_loaded("../time_sync")).
+:-(import(from(/(current_time,1),time_sync))).
+:-(local(store(last_time))).
+:-(mode(progress_report(++,+,++))).
+:-(tool(/(progress_report,3),/(progress_report_body,4))).
+:-(mode(progress_report_body(++,+,++,++))).
+:-(:(sepia_kernel,store_pred(/(progress_report_body,4),[](o(6),pw(7),a(1),y(2),o(352),3,a(2),y(3),o(399),a(1),y(6),proc(/(current_time,1)),125,o(203),y(7),o(128),0,0,ref(84),o(104),a(1),last_time,o(285),a(3),y(1),o(404),a(4),progress_report,o(395),y(2),a(2),proc(:(sepia_kernel,/(store_get_,4))),255,o(204),y(7),pw(6),o(212),a(1),o(128),0,1,ref(95),o(353),y(1),a(3),y(4),a(4),o(322),a(3),a(4),a(3),16,o(4),y(6),a(4),o(336),a(4),a(3),progress_report,48,o(403),a(1),pw(6),o(353),y(3),a(1),y(5),a(2),o(143),proc(:(sepia_kernel,/(untraced_call,2))),69,o(104),a(1),last_time,o(404),a(4),progress_report,o(353),y(2),a(2),y(6),a(3),o(145),proc(:(sepia_kernel,/(store_set_,4))),o(199),0,125,o(102),a(1),0,o(3),a(1),y(1),o(139),ref(36),o(199),0,1,o(154),o(0)),100,0,0,'/home/stephan/fluxplayer/svnroot/gamechecker/prolog/utils/progress_report.pl',0,0))).

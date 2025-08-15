@@ -1,0 +1,156 @@
+(role xplayer)
+(role oplayer)
+
+(init (control xplayer))
+(init (board1 a b c d e f g h i))
+(init (board2 a b c d e f g h i))
+(init (blank board1 a))
+(init (blank board1 b))
+(init (blank board1 c))
+(init (blank board1 d))
+(init (blank board1 e))
+(init (blank board1 f))
+(init (blank board1 g))
+(init (blank board1 h))
+(init (blank board1 i))
+(init (blank board2 a))
+(init (blank board2 b))
+(init (blank board2 c))
+(init (blank board2 d))
+(init (blank board2 e))
+(init (blank board2 f))
+(init (blank board2 g))
+(init (blank board2 h))
+(init (blank board2 i))
+
+(<= (legal ?player (mark ?board ?pos))
+    (role ?player)
+    (control ?player)
+    (blank ?board ?pos)
+    (not (line ?board x))
+    (not (line ?board o)))
+
+(<= (legal ?player noop)
+    (role ?player)
+    (not (exists ?pos (legal ?player (mark ?board ?pos)))))
+
+(<= (next (control xplayer))
+    (true (control oplayer)))
+
+(<= (next (control oplayer))
+    (true (control xplayer)))
+
+(<= (next (x ?board ?pos))
+    (does xplayer (mark ?board ?pos)))
+
+(<= (next (o ?board ?pos))
+    (does oplayer (mark ?board ?pos)))
+
+(<= (next (blank ?board ?pos))
+    (true (blank ?board ?pos))
+    (not (does ?player (mark ?board ?pos))))
+
+(<= (line ?board ?mark)
+    (row ?board ?mark)
+    (column ?board ?mark)
+    (diagonal ?board ?mark))
+
+(<= (row ?board ?mark)
+    (true (?mark ?board a))
+    (true (?mark ?board b))
+    (true (?mark ?board c)))
+
+(<= (row ?board ?mark)
+    (true (?mark ?board d))
+    (true (?mark ?board e))
+    (true (?mark ?board f)))
+
+(<= (row ?board ?mark)
+    (true (?mark ?board g))
+    (true (?mark ?board h))
+    (true (?mark ?board i)))
+
+(<= (column ?board ?mark)
+    (true (?mark ?board a))
+    (true (?mark ?board d))
+    (true (?mark ?board g)))
+
+(<= (column ?board ?mark)
+    (true (?mark ?board b))
+    (true (?mark ?board e))
+    (true (?mark ?board h)))
+
+(<= (column ?board ?mark)
+    (true (?mark ?board c))
+    (true (?mark ?board f))
+    (true (?mark ?board i)))
+
+(<= (diagonal ?board ?mark)
+    (true (?mark ?board a))
+    (true (?mark ?board e))
+    (true (?mark ?board i)))
+
+(<= (diagonal ?board ?mark)
+    (true (?mark ?board c))
+    (true (?mark ?board e))
+    (true (?mark ?board g)))
+
+(<= (full ?board)
+    (not (exists ?pos (blank ?board ?pos))))
+
+(<= (terminal)
+    (or (and (line board1 x) (line board2 x))
+        (and (line board1 o) (line board2 o))
+        (and (line board1 x) (full board2))
+        (and (line board2 x) (full board1))
+        (and (line board1 o) (full board2))
+        (and (line board2 o) (full board1))
+        (and (full board1) (full board2))))
+
+(<= (goal xplayer 100)
+    (line board1 x)
+    (line board2 x))
+
+(<= (goal oplayer 100)
+    (line board1 o)
+    (line board2 o))
+
+(<= (goal xplayer 75)
+    (line board1 x)
+    (not (line board2 o)))
+
+(<= (goal xplayer 75)
+    (line board2 x)
+    (not (line board1 o)))
+
+(<= (goal oplayer 75)
+    (line board1 o)
+    (not (line board2 x)))
+
+(<= (goal oplayer 75)
+    (line board2 o)
+    (not (line board1 x)))
+
+(<= (goal xplayer 25)
+    (line board1 o)
+    (not (line board2 x)))
+
+(<= (goal xplayer 25)
+    (line board2 o)
+    (not (line board1 x)))
+
+(<= (goal oplayer 25)
+    (line board1 x)
+    (not (line board2 o)))
+
+(<= (goal oplayer 25)
+    (line board2 x)
+    (not (line board1 o)))
+
+(<= (goal xplayer 0)
+    (line board1 o)
+    (line board2 o))
+
+(<= (goal oplayer 0)
+    (line board1 x)
+    (line board2 x))

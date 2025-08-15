@@ -1,0 +1,53 @@
+(role robot)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4) 
+(index 5)
+
+(init (depthLevel 1) (previousGoal 0) (choice c1) (previousChoices (c1)))
+
+(<= (legal robot (choose?dir))
+    (index?dir)
+    (oneof?dir c1 c2 c3 c4)
+    (true (depthLevel 1)))
+
+(<= (next (depthLevel?newLevel))
+    (role robot)
+    (does robot (choose?dir))
+    (oneof?newLevel 2 3 4 5))
+
+(<= (next (previousGoal?newGoal))
+    (role robot)
+    (does robot (choose?dir))
+    (oneof?newGoal 0 25 50 75 100))
+
+(<= (next (choice?newChoice))
+    (role robot)
+    (does robot (choose?dir))
+    (oneof?newChoice c1 c2 c3 c4))
+
+(<= (next (previousChoices?newChoices))
+    (role robot)
+    (does robot (choose?dir))
+    (oneof?newChoices (c1) (c2) (c3) (c4) (c1 c2) (c1 c3) (c1 c4) (c2 c3) (c2 c4) (c3 c4) (c1 c2 c3) (c1 c2 c4) (c1 c3 c4) (c2 c3 c4) (c1 c2 c3 c4)))
+
+(<= terminal
+    (true (depthLevel 5)))
+
+(<= (goal robot 25)
+    (role robot)
+    (oneof (c1 c2) (c1 c3) (c1 c4) (c2 c3) (c2 c4) (c3 c4)))
+(<= (goal robot 50)
+    (role robot)
+    (oneof (c1 c2 c3) (c1 c2 c4) (c1 c3 c4) (c2 c3 c4)))
+(<= (goal robot 75)
+    (role robot)
+    (oneof (c1 c2 c3 c4)))
+(<= (goal robot 100)
+    (role robot)
+    (true (c1 c2 c3 c4)))
+
+(<= (oneof?x?y?z)
+    (or (true?x) (true?y) (true?z)))

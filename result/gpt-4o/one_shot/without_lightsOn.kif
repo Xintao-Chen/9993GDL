@@ -1,0 +1,52 @@
+(role robot)
+
+(index 1)
+(index 2)
+
+(init (cellState 1 1 0))
+(init (cellState 1 2 0))
+(init (cellState 2 1 0))
+(init (cellState 2 2 0))
+(init (stepCount 0))
+
+(<= (legal robot (press ?i ?j))
+    (index ?i)
+    (index ?j))
+(<= (legal robot noop))
+
+(<= (next (cellState ?i ?j 4))
+    (does robot (press ?i ?j)))
+(<= (next (cellState ?i ?j ?newState))
+    (true (cellState ?i ?j ?state))
+    (succ ?newState ?state)
+    (not (does robot (press ?i ?j))))
+(<= (next (stepCount ?newCount))
+    (true (stepCount ?count))
+    (succ ?newCount ?count))
+
+(<= terminal
+    (true (stepCount 20)))
+(<= terminal
+    lightsOn)
+
+(<= (goal robot 100)
+    lightsOn)
+(<= (goal robot 0)
+    (not lightsOn))
+
+(<= lightsOn
+    (index ?i)
+    (index ?j)
+    (true (cellState ?i ?j ?state))
+    (greaterThanZero ?state))
+
+(<= (greaterThanZero 1))
+(<= (greaterThanZero 2))
+(<= (greaterThanZero 3))
+(<= (greaterThanZero 4))
+
+(<= (succ 1 0))
+(<= (succ 2 1))
+(<= (succ 3 2))
+(<= (succ 4 3))
+(<= (succ 5 4))

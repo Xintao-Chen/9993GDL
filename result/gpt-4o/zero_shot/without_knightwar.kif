@@ -1,0 +1,89 @@
+(role red)
+(role yellow)
+(role green)
+(role blue)
+(role orange)
+
+(init (position red 6 11))
+(init (position yellow 1 6))
+(init (position green 11 6))
+(init (position blue 4 1))
+(init (position orange 8 1))
+
+(init (score red 0))
+(init (score yellow 0))
+(init (score green 0))
+(init (score blue 0))
+(init (score orange 0))
+
+(init (dead red false))
+(init (dead yellow false))
+(init (dead green false))
+(init (dead blue false))
+(init (dead orange false))
+
+(<= (legal ?player noop) 
+    (true (dead ?player true)))
+
+(<= (legal ?player (move ?x ?y))
+    (true (position ?player ?px ?py))
+    (knight-move ?px ?py ?x ?y)
+    (not (true (dead ?player true)))
+    (not (occupied ?x ?y)))
+
+(<= (occupied ?x ?y)
+    (or (true (position red ?x ?y))
+        (true (position yellow ?x ?y))
+        (true (position green ?x ?y))
+        (true (position blue ?x ?y))
+        (true (position orange ?x ?y))
+        (hole ?x ?y)))
+
+(<= (knight-move ?px ?py ?x ?y)
+    (or (and (add ?px 2 ?nx) (add ?py 1 ?ny) (same ?nx ?x) (same ?ny ?y))
+        (and (add ?px 2 ?nx) (sub ?py 1 ?ny) (same ?nx ?x) (same ?ny ?y))
+        (and (sub ?px 2 ?nx) (add ?py 1 ?ny) (same ?nx ?x) (same ?ny ?y))
+        (and (sub ?px 2 ?nx) (sub ?py 1 ?ny) (same ?nx ?x) (same ?ny ?y))
+        (and (add ?px 1 ?nx) (add ?py 2 ?ny) (same ?nx ?x) (same ?ny ?y))
+        (and (add ?px 1 ?nx) (sub ?py 2 ?ny) (same ?nx ?x) (same ?ny ?y))
+        (and (sub ?px 1 ?nx) (add ?py 2 ?ny) (same ?nx ?x) (same ?ny ?y))
+        (and (sub ?px 1 ?nx) (sub ?py 2 ?ny) (same ?nx ?x) (same ?ny ?y))))
+
+(<= (next (position ?player ?x ?y))
+    (does ?player (move ?x ?y)))
+
+(<= (next (position ?player ?px ?py))
+    (true (position ?player ?px ?py))
+    (does ?player noop))
+
+(<= (next (dead ?player true))
+    (does ?player (move ?x ?y))
+    (occupied ?x ?y))
+
+(<= (next (dead ?player ?d))
+    (true (dead ?player ?d))
+    (does ?player noop))
+
+(<= (next (score ?player ?newScore))
+    (does ?player (move ?x ?y))
+    (true (score ?player ?oldScore))
+    (add ?oldScore 1 ?newScore))
+
+(<= (next (score ?player ?score))
+    (does ?player noop)
+    (true (score ?player ?score)))
+
+(<= (terminal)
+    (forall (?player) (true (dead ?player true))))
+
+(<= (goal ?player ?score)
+    (true (score ?player ?score)))
+
+(<= (add ?x ?y ?z)
+    (+ ?x ?y ?z))
+
+(<= (sub ?x ?y ?z)
+    (- ?x ?y ?z))
+
+(<= (same ?x ?y)
+    (== ?x ?y))

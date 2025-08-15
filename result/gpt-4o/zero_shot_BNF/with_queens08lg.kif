@@ -1,0 +1,84 @@
+(role robot)
+(init (step 1))
+(init (board-size 4))
+(init (queen-count 0))
+(init (cell 1 1 blank))
+(init (cell 1 2 blank))
+(init (cell 1 3 blank))
+(init (cell 1 4 blank))
+(init (cell 2 1 blank))
+(init (cell 2 2 blank))
+(init (cell 2 3 blank))
+(init (cell 2 4 blank))
+(init (cell 3 1 blank))
+(init (cell 3 2 blank))
+(init (cell 3 3 blank))
+(init (cell 3 4 blank))
+(init (cell 4 1 blank))
+(init (cell 4 2 blank))
+(init (cell 4 3 blank))
+(init (cell 4 4 blank))
+
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+
+(<= (legal robot (place ?x ?y))
+    (true (cell ?x ?y blank))
+    (not (attacked ?x ?y)))
+
+(<= (legal robot quit)
+    (true (step ?s))
+    (true (queen-count ?q))
+    (distinct ?s ?q))
+
+(<= (attacked ?x ?y)
+    (true (cell ?x2 ?y queen))
+    (or (distinct ?x ?x2)
+        (distinct ?y ?y2)
+        (diagonal ?x ?y ?x2 ?y2)))
+
+(<= (diagonal ?x1 ?y1 ?x2 ?y2)
+    (or (plus ?x1 ?d ?x2)
+        (plus ?x2 ?d ?x1))
+    (or (plus ?y1 ?d ?y2)
+        (plus ?y2 ?d ?y1)))
+
+(<= (next (cell ?x ?y queen))
+    (does robot (place ?x ?y)))
+
+(<= (next (cell ?x ?y ?state))
+    (true (cell ?x ?y ?state))
+    (distinct ?state blank))
+
+(<= (next (queen-count ?q2))
+    (true (queen-count ?q1))
+    (succ ?q1 ?q2))
+
+(<= (next (step ?s2))
+    (true (step ?s1))
+    (succ ?s1 ?s2))
+
+(<= terminal
+    (true (queen-count ?q))
+    (true (board-size ?n))
+    (succ ?n ?q))
+
+(<= terminal
+    (does robot quit))
+
+(<= (goal robot 100)
+    (true (queen-count ?q))
+    (true (board-size ?n))
+    (succ ?n ?q))
+
+(<= (goal robot 0)
+    (does robot quit))
+
+(<= (plus ?x ?y ?z)
+    (succ ?x ?y)
+    (succ ?y ?z))

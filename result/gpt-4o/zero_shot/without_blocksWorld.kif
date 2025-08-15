@@ -1,0 +1,60 @@
+(role robot)
+
+(init (on c a))
+(init (clear c))
+(init (clear b))
+(init (on-table a))
+(init (on-table b))
+(init (step 1))
+
+(<= (legal robot (stack X Y))
+    (true (clear X))
+    (true (clear Y))
+    (distinct X Y)
+    (or (true (on-table X))
+        (exists (Z) (true (on X Z)))))
+
+(<= (legal robot (unstack X Y))
+    (true (clear X))
+    (exists (Z) (true (on X Z)))
+    (distinct X Y))
+
+(<= (next (on X Y))
+    (does robot (stack X Y)))
+
+(<= (next (clear X))
+    (does robot (unstack X Y)))
+
+(<= (next (clear Y))
+    (does robot (stack X Y)))
+
+(<= (next (on-table X))
+    (does robot (unstack X Y))
+    (true (on-table X)))
+
+(<= (next (on X Z))
+    (true (on X Z))
+    (not (does robot (unstack X Z)))
+    (not (does robot (stack X Z))))
+
+(<= (next (clear Z))
+    (true (clear Z))
+    (not (does robot (stack _ Z))))
+
+(<= (next (step N))
+    (true (step M))
+    (succ M N))
+
+(<= (terminal)
+    (true (step 5)))
+(<= (terminal)
+    (true (on a b))
+    (true (on b c)))
+
+(<= (goal robot 100)
+    (true (on a b))
+    (true (on b c)))
+
+(<= (goal robot 0)
+    (not (true (on a b)))
+    (not (true (on b c))))

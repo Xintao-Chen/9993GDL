@@ -1,0 +1,59 @@
+(role robot)
+
+(init (position p1))
+
+(legal robot a) :- (true (position p1)).
+(legal robot a) :- (true (position p2)).
+(legal robot a) :- (true (position p5)).
+(legal robot a) :- (true (position p6)).
+(legal robot a) :- (true (position p9)).
+(legal robot a) :- (true (position p10)).
+(legal robot a) :- (true (position p13)).
+(legal robot a) :- (true (position p14)).
+
+(legal robot b) :- (true (position p1)).
+(legal robot b) :- (true (position p3)).
+(legal robot b) :- (true (position p5)).
+(legal robot b) :- (true (position p7)).
+(legal robot b) :- (true (position p9)).
+(legal robot b) :- (true (position p11)).
+(legal robot b) :- (true (position p13)).
+(legal robot b) :- (true (position p15)).
+
+(legal robot c) :- (true (position p4)).
+(legal robot c) :- (true (position p8)).
+(legal robot c) :- (true (position p12)).
+
+(next (position p2)) :- (does robot a), (true (position p1)).
+(next (position p3)) :- (does robot a), (true (position p2)).
+(next (position p4)) :- (does robot a), (true (position p3)).
+(next (position p5)) :- (does robot a), (true (position p4)).
+(next (position p6)) :- (does robot a), (true (position p5)).
+(next (position p7)) :- (does robot a), (true (position p6)).
+(next (position p8)) :- (does robot a), (true (position p7)).
+(next (position p9)) :- (does robot a), (true (position p8)).
+(next (position p10)) :- (does robot a), (true (position p9)).
+(next (position p11)) :- (does robot a), (true (position p10)).
+(next (position p12)) :- (does robot a), (true (position p11)).
+(next (position p13)) :- (does robot a), (true (position p12)).
+(next (position p14)) :- (does robot a), (true (position p13)).
+(next (position p15)) :- (does robot a), (true (position p14)).
+(next (position p16)) :- (does robot a), (true (position p15)).
+
+(next (position p2)) :- (does robot b), (true (position p1)).
+(next (position p4)) :- (does robot b), (true (position p3)).
+(next (position p6)) :- (does robot b), (true (position p5)).
+(next (position p8)) :- (does robot b), (true (position p7)).
+(next (position p10)) :- (does robot b), (true (position p9)).
+(next (position p12)) :- (does robot b), (true (position p11)).
+(next (position p14)) :- (does robot b), (true (position p13)).
+(next (position p16)) :- (does robot b), (true (position p15)).
+
+(next (position p5)) :- (does robot c), (true (position p4)).
+(next (position p9)) :- (does robot c), (true (position p8)).
+(next (position p13)) :- (does robot c), (true (position p12)).
+
+(terminal) :- (true (position p16)).
+
+(goal robot 90) :- (true (position p16)).
+(goal robot 0) :- not (true (position p16)).

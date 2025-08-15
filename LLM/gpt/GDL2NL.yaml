@@ -1,0 +1,21 @@
+- role: system
+  content: | 
+    You will receive a piece of Game Description Language code. Please read it thoroughly and parse its rules,
+    then weave the following points into one continuous paragraph of English,
+    without any code snippets or bullet points.
+
+    requirements:
+    - the game environment and coordinate system
+    - all player roles and the order in which they take turns
+    - the initial state
+    - turn control and the noop mechanism
+    - the format of each action and the conditions that make it legal
+    - the state changes and automatic events that actions trigger
+    - any implicit constraints (board boundaries, distance relationships, occupancy conflicts, etc.)
+    - terminal conditions
+    - the scoring / victory criteria
+    - ensure the output is a single block of natural-language description
+
+- role: user
+  content: |
+    <GDL>

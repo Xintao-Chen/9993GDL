@@ -1,0 +1,96 @@
+(role kitten)
+
+(init (position 8 2))
+(init (round 0))
+
+(<= (legal kitten up) 
+    (true (position X Y))
+    (not (blocked X Y))
+    (adjacent X Y X Y1)
+    (within-boundaries X Y1))
+
+(<= (legal kitten down) 
+    (true (position X Y))
+    (not (blocked X Y))
+    (adjacent X Y X Y1)
+    (within-boundaries X Y1))
+
+(<= (legal kitten left) 
+    (true (position X Y))
+    (not (blocked X Y))
+    (adjacent X Y X1 Y)
+    (within-boundaries X1 Y))
+
+(<= (legal kitten right) 
+    (true (position X Y))
+    (not (blocked X Y))
+    (adjacent X Y X1 Y)
+    (within-boundaries X1 Y))
+
+(<= (next (position X1 Y1))
+    (does kitten move)
+    (true (position X Y))
+    (adjacent X Y X1 Y1)
+    (within-boundaries X1 Y1)
+    (not (blocked X1 Y1)))
+
+(<= (next (round R1))
+    (true (round R))
+    (succ R R1))
+
+(<= (terminal)
+    (true (position 15 4)))
+
+(<= (terminal)
+    (true (round 16)))
+
+(<= (terminal)
+    (true (position X Y))
+    (true (round R))
+    (<= X R))
+
+(<= (goal kitten 100)
+    (true (position 15 4)))
+
+(<= (goal kitten 0)
+    (terminal)
+    (not (true (position 15 4))))
+
+(<= (blocked X Y)
+    (true (round R))
+    (<= X R))
+
+(<= (adjacent X Y X Y1)
+    (succ Y Y1))
+
+(<= (adjacent X Y X Y1)
+    (succ Y1 Y))
+
+(<= (adjacent X Y X1 Y)
+    (succ X X1))
+
+(<= (adjacent X Y X1 Y)
+    (succ X1 X))
+
+(<= (within-boundaries X Y)
+    (<= 1 X)
+    (<= X 15)
+    (<= 1 Y)
+    (<= Y 4))
+
+(succ 0 1)
+(succ 1 2)
+(succ 2 3)
+(succ 3 4)
+(succ 4 5)
+(succ 5 6)
+(succ 6 7)
+(succ 7 8)
+(succ 8 9)
+(succ 9 10)
+(succ 10 11)
+(succ 11 12)
+(succ 12 13)
+(succ 13 14)
+(succ 14 15)
+(succ 15 16)

@@ -1,0 +1,28 @@
+{
+  "id": "batch_688a18b95e4c819088b7f175462d490d",
+  "completion_window": "24h",
+  "created_at": 1753880761,
+  "endpoint": "/v1/chat/completions",
+  "input_file_id": "file-Sp64E1Cew6nTyFZe9E1Q9v",
+  "object": "batch",
+  "status": "validating",
+  "cancelled_at": null,
+  "cancelling_at": null,
+  "completed_at": null,
+  "error_file_id": null,
+  "errors": null,
+  "expired_at": null,
+  "expires_at": 1753967161,
+  "failed_at": null,
+  "finalizing_at": null,
+  "in_progress_at": null,
+  "metadata": {
+    "project": "/srv/scratch/z5485311/GDL2NL/LLM/gpt/batch_data/NL2GDL_split_part_1.jsonl"
+  },
+  "output_file_id": null,
+  "request_counts": {
+    "completed": 0,
+    "failed": 0,
+    "total": 0
+  }
+}

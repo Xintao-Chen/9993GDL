@@ -1,0 +1,72 @@
+(role player)
+
+(position a)
+(position b1)
+(position b2)
+(position c)
+(position x)
+(position y1)
+(position y2)
+(position z)
+
+(init (pos1 a))
+(init (pos2 x))
+
+(connected a b1)
+(connected b1 b2)
+(connected b2 c)
+(connected x y1)
+(connected y1 y2)
+(connected y2 z)
+
+(<= (legal player noop)
+    (not (legalMove1 ?pos1))
+    (not (legalMove2 ?pos2)))
+
+(<= (legal player (move1 ?dest))
+    (true (pos1 ?pos1))
+    (connected ?pos1 ?dest))
+
+(<= (legal player (move2 ?dest))
+    (true (pos2 ?pos2))
+    (connected ?pos2 ?dest))
+
+(<= (next (pos1 ?dest))
+    (does player (move1 ?dest)))
+
+(<= (next (pos1 ?pos1))
+    (true (pos1 ?pos1))
+    (not (does player (move1 ?dest))))
+
+(<= (next (pos2 ?dest))
+    (does player (move2 ?dest)))
+
+(<= (next (pos2 ?pos2))
+    (true (pos2 ?pos2))
+    (not (does player (move2 ?dest))))
+
+(<= terminal
+    (true (pos1 c))
+    (true (pos2 z)))
+(<= terminal
+    (true (pos1 a))
+    (true (pos2 z)))
+(<= terminal
+    (true (pos1 c))
+    (true (pos2 x)))
+(<= terminal
+    (true (pos1 b1))
+    (true (pos2 y1)))
+
+(<= (goal player 100)
+    (true (pos1 c))
+    (true (pos2 z)))
+(<= (goal player 0)
+    (terminal)
+    (not (and (true (pos1 c)) (true (pos2 z)))))
+
+(<= (legalMove1 ?pos1)
+    (connected ?pos1 ?dest))
+
+(<= (legalMove2 ?pos2)
+    (connected ?pos2 ?dest))

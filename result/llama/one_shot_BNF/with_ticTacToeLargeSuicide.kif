@@ -1,0 +1,53 @@
+(role xPlayer)
+(role oPlayer)
+
+(index 1) 
+(index 2) 
+(index 3) 
+(index 4) 
+(index 5)
+(index 6) 
+(index 7) 
+(index 8) 
+(index 9) 
+(index 10) 
+(index 11) 
+(index 12) 
+(index 13) 
+(index 14) 
+(index 15)
+
+(init (control xPlayer) (mark 1 1 x) (mark 2 1 x) (mark 3 1 x) (mark 4 1 x) (mark 5 1 x) (mark 1 2 x) (mark 2 2 x) (mark 3 2 x) (mark 4 2 x) (mark 5 2 x) (mark 1 3 x) (mark 2 3 x) (mark 3 3 x) (mark 4 3 x) (mark 5 3 x))
+
+(<= (legal xPlayer noop) (true (control xPlayer)))
+(<= (legal xPlayer (play?i?j x)) (true (control xPlayer)) (index?i) (index?j) (index?i) (index?j) (not (true (mark?i?j x))) (not (true (mark?i?j o))))
+(<= (legal oPlayer noop) (true (control xPlayer)))
+(<= (legal oPlayer (play?i?j o)) (true (control xPlayer)) (index?i) (index?j) (index?i) (index?j) (not (true (mark?i?j x))) (not (true (mark?i?j o))))
+
+(<= (next (mark?i?j?mark)) (role?player) (does?player (play?i?j?mark)) (index?i) (index?j) (not (true (mark?i?j?mark))))
+(<= (next (mark?i?j?mark)) (true (mark?i?j?mark)) (index?i) (index?j))
+(<= (next (control xPlayer)) (true (control oPlayer)))
+(<= (next (control oPlayer)) (true (control xPlayer)))
+
+(<= terminal (line x))
+(<= terminal (line o))
+(<= terminal (not open))
+
+(<= (goal xPlayer 100) (line o))
+(<= (goal xPlayer 50) (not (line x)) (not (line o)) (not open))
+(<= (goal xPlayer 0) (line x))
+(<= (goal oPlayer 100) (line x))
+(<= (goal oPlayer 50) (not (line o)) (not (line x)) (not open))
+(<= (goal oPlayer 0) (line o))
+
+(<= (row?i?mark) (index?i) (true (mark?i 1?mark)) (true (mark?i 2?mark)) (true (mark?i 3?mark)) (true (mark?i 4?mark)) (true (mark?i 5?mark)))
+(<= (col?j?mark) (index?j) (true (mark 1?j?mark)) (true (mark 2?j?mark)) (true (mark 3?j?mark)) (true (mark 4?j?mark)) (true (mark 5?j?mark)))
+(<= (diag?mark) (true (mark 1 1?mark)) (true (mark 2 2?mark)) (true (mark 3 3?mark)) (true (mark 4 4?mark)) (true (mark 5 5?mark)))
+(<= (diag?mark) (true (mark 1 5?mark)) (true (mark 2 4?mark)) (true (mark 3 3?mark)) (true (mark 4 2?mark)) (true (mark 5 1?mark)))
+
+(<= (line?mark) (index?i) (row?i?mark))
+(<= (line?mark) (index?j) (col?j?mark))
+(<= (line?mark) (diag?mark))
+
+(<= (emptyCell?i?j) (index?i) (index?j) (not (true (mark?i?j x))) (not (true (mark?i?j o))))
+(<= open (emptyCell?i?j))

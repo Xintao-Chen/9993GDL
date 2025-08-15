@@ -1,0 +1,159 @@
+(role xplayer)
+(role oplayer)
+
+(init (cell 1 1 1 b))
+(init (cell 1 1 2 b))
+(init (cell 1 1 3 b))
+(init (cell 1 2 1 b))
+(init (cell 1 2 2 b))
+(init (cell 1 2 3 b))
+(init (cell 1 3 1 b))
+(init (cell 1 3 2 b))
+(init (cell 1 3 3 b))
+(init (cell 2 1 1 b))
+(init (cell 2 1 2 b))
+(init (cell 2 1 3 b))
+(init (cell 2 2 1 b))
+(init (cell 2 2 2 b))
+(init (cell 2 2 3 b))
+(init (cell 2 3 1 b))
+(init (cell 2 3 2 b))
+(init (cell 2 3 3 b))
+(init (cell 3 1 1 b))
+(init (cell 3 1 2 b))
+(init (cell 3 1 3 b))
+(init (cell 3 2 1 b))
+(init (cell 3 2 2 b))
+(init (cell 3 2 3 b))
+(init (cell 3 3 1 b))
+(init (cell 3 3 2 b))
+(init (cell 3 3 3 b))
+(init (control xplayer))
+
+(<= (legal xplayer (mark X Y Z))
+    (true (control xplayer))
+    (true (cell X Y Z b)))
+
+(<= (legal oplayer (mark X Y Z))
+    (true (control oplayer))
+    (true (cell X Y Z b)))
+
+(<= (legal xplayer noop)
+    (true (control xplayer))
+    (not (exists (X Y Z) (true (cell X Y Z b)))))
+
+(<= (legal oplayer noop)
+    (true (control oplayer))
+    (not (exists (X Y Z) (true (cell X Y Z b)))))
+
+(<= (next (cell X Y Z x))
+    (does xplayer (mark X Y Z))
+    (true (cell X Y Z b)))
+
+(<= (next (cell X Y Z o))
+    (does oplayer (mark X Y Z))
+    (true (cell X Y Z b)))
+
+(<= (next (cell X Y Z V))
+    (true (cell X Y Z V))
+    (distinct V b))
+
+(<= (next (control oplayer))
+    (true (control xplayer)))
+
+(<= (next (control xplayer))
+    (true (control oplayer)))
+
+(<= (line P)
+    (true (cell X Y 1 P))
+    (true (cell X Y 2 P))
+    (true (cell X Y 3 P)))
+
+(<= (line P)
+    (true (cell X 1 Z P))
+    (true (cell X 2 Z P))
+    (true (cell X 3 Z P)))
+
+(<= (line P)
+    (true (cell 1 Y Z P))
+    (true (cell 2 Y Z P))
+    (true (cell 3 Y Z P)))
+
+(<= (line P)
+    (true (cell 1 1 1 P))
+    (true (cell 2 2 2 P))
+    (true (cell 3 3 3 P)))
+
+(<= (line P)
+    (true (cell 3 1 1 P))
+    (true (cell 2 2 2 P))
+    (true (cell 1 3 3 P)))
+
+(<= (line P)
+    (true (cell 1 1 3 P))
+    (true (cell 2 2 2 P))
+    (true (cell 3 3 1 P)))
+
+(<= (line P)
+    (true (cell 3 1 3 P))
+    (true (cell 2 2 2 P))
+    (true (cell 1 3 1 P)))
+
+(<= (line P)
+    (true (cell 1 1 Z P))
+    (true (cell 2 2 Z P))
+    (true (cell 3 3 Z P)))
+
+(<= (line P)
+    (true (cell 3 1 Z P))
+    (true (cell 2 2 Z P))
+    (true (cell 1 3 Z P)))
+
+(<= (line P)
+    (true (cell X 1 1 P))
+    (true (cell X 2 2 P))
+    (true (cell X 3 3 P)))
+
+(<= (line P)
+    (true (cell X 3 1 P))
+    (true (cell X 2 2 P))
+    (true (cell X 1 3 P)))
+
+(<= (line P)
+    (true (cell 1 Y 1 P))
+    (true (cell 2 Y 2 P))
+    (true (cell 3 Y 3 P)))
+
+(<= (line P)
+    (true (cell 3 Y 1 P))
+    (true (cell 2 Y 2 P))
+    (true (cell 1 Y 3 P)))
+
+(<= terminal
+    (line x))
+(<= terminal
+    (line o))
+(<= terminal
+    (not (exists (X Y Z) (true (cell X Y Z b)))))
+
+(<= (goal xplayer 100)
+    (line x))
+
+(<= (goal oplayer 100)
+    (line o))
+
+(<= (goal xplayer 0)
+    (line o))
+
+(<= (goal oplayer 0)
+    (line x))
+
+(<= (goal xplayer 50)
+    (not (line x))
+    (not (line o))
+    (not (exists (X Y Z) (true (cell X Y Z b)))))
+
+(<= (goal oplayer 50)
+    (not (line x))
+    (not (line o))
+    (not (exists (X Y Z) (true (cell X Y Z b)))))

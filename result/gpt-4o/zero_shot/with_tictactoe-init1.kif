@@ -1,0 +1,109 @@
+(role xplayer)
+(role oplayer)
+
+(init (cell 1 1 b))
+(init (cell 1 2 o))
+(init (cell 1 3 b))
+(init (cell 2 1 b))
+(init (cell 2 2 b))
+(init (cell 2 3 b))
+(init (cell 3 1 x))
+(init (cell 3 2 o))
+(init (cell 3 3 x))
+(init (control xplayer))
+
+(<= (legal xplayer (mark ?x ?y))
+    (true (control xplayer))
+    (true (cell ?x ?y b)))
+
+(<= (legal oplayer (mark ?x ?y))
+    (true (control oplayer))
+    (true (cell ?x ?y b)))
+
+(<= (legal xplayer noop)
+    (true (control oplayer)))
+
+(<= (legal oplayer noop)
+    (true (control xplayer)))
+
+(<= (next (cell ?x ?y x))
+    (does xplayer (mark ?x ?y)))
+
+(<= (next (cell ?x ?y o))
+    (does oplayer (mark ?x ?y)))
+
+(<= (next (cell ?x ?y ?w))
+    (true (cell ?x ?y ?w))
+    (distinct ?w b)
+    (not (does xplayer (mark ?x ?y)))
+    (not (does oplayer (mark ?x ?y))))
+
+(<= (next (cell ?x ?y b))
+    (true (cell ?x ?y b))
+    (not (does xplayer (mark ?x ?y)))
+    (not (does oplayer (mark ?x ?y))))
+
+(<= (next (control xplayer))
+    (true (control oplayer)))
+
+(<= (next (control oplayer))
+    (true (control xplayer)))
+
+(<= (line ?player)
+    (true (cell ?x ?y ?player))
+    (true (cell ?x ?y2 ?player))
+    (true (cell ?x ?y3 ?player))
+    (distinct ?y ?y2)
+    (distinct ?y ?y3)
+    (distinct ?y2 ?y3))
+
+(<= (line ?player)
+    (true (cell ?x ?y ?player))
+    (true (cell ?x2 ?y ?player))
+    (true (cell ?x3 ?y ?player))
+    (distinct ?x ?x2)
+    (distinct ?x ?x3)
+    (distinct ?x2 ?x3))
+
+(<= (line ?player)
+    (true (cell ?x ?y ?player))
+    (true (cell ?x2 ?y2 ?player))
+    (true (cell ?x3 ?y3 ?player))
+    (distinct ?x ?x2)
+    (distinct ?x ?x3)
+    (distinct ?x2 ?x3)
+    (distinct ?y ?y2)
+    (distinct ?y ?y3)
+    (distinct ?y2 ?y3)
+    (or (and (= ?x 1) (= ?y 1) (= ?x2 2) (= ?y2 2) (= ?x3 3) (= ?y3 3))
+        (and (= ?x 1) (= ?y 3) (= ?x2 2) (= ?y2 2) (= ?x3 3) (= ?y3 1))))
+
+(<= (full)
+    (not (true (cell ?x ?y b))))
+
+(<= terminal
+    (line xplayer))
+(<= terminal
+    (line oplayer))
+(<= terminal
+    (full))
+
+(<= (goal xplayer 100)
+    (line xplayer))
+(<= (goal oplayer 0)
+    (line xplayer))
+
+(<= (goal oplayer 100)
+    (line oplayer))
+(<= (goal xplayer 0)
+    (line oplayer))
+
+(<= (goal xplayer 50)
+    (full)
+    (not (line xplayer))
+    (not (line oplayer)))
+
+(<= (goal oplayer 50)
+    (full)
+    (not (line xplayer))
+    (not (line oplayer)))
